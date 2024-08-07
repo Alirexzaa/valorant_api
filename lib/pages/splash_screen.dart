@@ -35,18 +35,19 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
           sizeFactor: animation,
           axis: Axis.vertical,
           child: Container(
-              alignment: Alignment.center,
-              height: size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/Splash.png'),
-                  const Text(
-                    'Click to continue',
-                    style: TextStyle(fontSize: 35),
-                  )
-                ],
-              ),),
+            alignment: Alignment.center,
+            height: size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/Splash.png'),
+                const Text(
+                  'Click to continue',
+                  style: TextStyle(fontSize: 35),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

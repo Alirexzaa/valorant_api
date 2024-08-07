@@ -295,51 +295,77 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                     left: 40,
                     right: 10,
                     top: size.height / 1.40,
-                    child: Row(
-                      children: [
-                        Text(
-                          'FireRate',
-                          style: detailStyle,
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 270,
-                          height: 15,
-                          child: LinearProgressIndicator(
-                              backgroundColor: HexColor('e9404f'),
-                              value: (weaponData[weaponIndex]
-                                          .weaponStats
-                                          ?.fireRate ??
+                    child: Text(
+                      'Fire Rate : ${weaponData[weaponIndex].weaponStats!.fireRate}',
+                      style: detailStyle,
+                    ),
+                  ),
+                  Positioned(
+                    top: size.height / 1.33,
+                    left: 40,
+                    right: 110,
+                    child: SizedBox(
+                      width: 270,
+                      height: 15,
+                      child: LinearProgressIndicator(
+                          backgroundColor: HexColor('e9404f'),
+                          value:
+                              (weaponData[weaponIndex].weaponStats?.fireRate ??
                                       0 * 1.0) /
                                   16),
-                        ),
-                      ],
                     ),
                   ),
                   Positioned(
                     left: 40,
                     right: 10,
-                    top: size.height / 1.30,
-                    child: Column(
-                      children: [
-                        Text(
-                          'runSpeedMultiplier',
-                          style: detailStyle,
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 300,
-                          height: 15,
-                          child: LinearProgressIndicator(
-                              backgroundColor: HexColor('e9404f'),
-                              value: weaponData[weaponIndex]
-                                      .weaponStats
-                                      ?.runSpeedMultiplier ??
-                                  0 * 1.0),
-                        ),
-                      ],
+                    top: size.height / 1.28,
+                    child: Text(
+                      'Run Speed Multiplier : ${weaponData[weaponIndex].weaponStats!.runSpeedMultiplier}',
+                      style: detailStyle,
                     ),
                   ),
+                  Positioned(
+                    left: 40,
+                    right: 110,
+                    top: size.height / 1.22,
+                    child: SizedBox(
+                      width: 270,
+                      height: 15,
+                      child: LinearProgressIndicator(
+                          backgroundColor: HexColor('e9404f'),
+                          value: (weaponData[weaponIndex]
+                                      .weaponStats
+                                      ?.runSpeedMultiplier ??
+                                  0 * 1.0) /
+                              16),
+                    ),
+                  ),
+                  Positioned(
+                    left: 40,
+                    right: 10,
+                    top: size.height / 1.19,
+                    child: Text(
+                      'reloadTimeSeconds : ${weaponData[weaponIndex].weaponStats!.reloadTimeSeconds}',
+                      style: detailStyle,
+                    ),
+                  ),
+                  Positioned(
+                    left: 40,
+                    right: 110,
+                    top: size.height / 1.13,
+                    child: SizedBox(
+                      width: 270,
+                      height: 15,
+                      child: LinearProgressIndicator(
+                          backgroundColor: HexColor('e9404f'),
+                          value: (weaponData[weaponIndex]
+                                      .weaponStats
+                                      ?.reloadTimeSeconds ??
+                                  0 * 1.0) /
+                              16),
+                    ),
+                  )
+
                   // Positioned(
                   //   top: 500,
                   //   left: 100,
