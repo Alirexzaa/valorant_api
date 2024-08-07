@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:valorant_api/pages/agentPage/agent_detail_page.dart';
+import 'package:valorant_api/pages/bundlesPage/bundles_detail_page.dart';
 import 'package:valorant_api/pages/bundlesPage/bundles_page.dart';
 import 'package:valorant_api/pages/mapPage/map_page.dart';
 import 'package:valorant_api/pages/mapPage/maps_detail.dart';
@@ -22,4 +23,5 @@ final Map<String, WidgetBuilder> routes = {
   NewHomePage.routeName: (context) => const NewHomePage(),
   SpraysPage.routeName: (context) => const SpraysPage(),
   BundlesPage.routeName: (context) => const BundlesPage(),
+  BundlesDetailPage.routeName: (context) => const BundlesDetailPage(),
 };

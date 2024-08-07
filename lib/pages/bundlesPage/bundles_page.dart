@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
@@ -16,6 +15,7 @@ class BundlesPage extends StatefulWidget {
 class _BundlesPageState extends State<BundlesPage> {
   @override
   Widget build(BuildContext context) {
+    // Get size of display in use
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -48,12 +48,11 @@ class _BundlesPageState extends State<BundlesPage> {
           future: fetchBundles(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              var bundleseData = snapshot.data!.data;
-
+              var bundlesData = snapshot.data!.data;
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GridView.builder(
-                  itemCount: bundleseData.length,
+                  itemCount: bundlesData.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 0,
@@ -61,32 +60,46 @@ class _BundlesPageState extends State<BundlesPage> {
                     mainAxisExtent: 300,
                   ),
                   itemBuilder: (context, index) {
-                    return Stack(
-                      children: [
-                        // Bundles Picure
-                        SizedBox(
-                          child: bundleseData[index].verticalPromoImage == null
-                              ? SizedBox()
-                              : Image.network(
-                                  fit: BoxFit.cover,
-                                  bundleseData[index]
-                                      .verticalPromoImage
-                                      .toString(),
-                                ),
-                        ),
-
-                        // Bundles Name
-                        Positioned(
-                          bottom: 0,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 212,
-                            height: 30,
-                            color: Colors.white,
-                            child: Text(bundleseData[index].displayName),
+                    return InkResponse(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/BundlesDetailPage',
+                          arguments: {
+                            'displayName': bundlesData[index].displayName,
+                            'description': bundlesData[index].description,
+                            'verticalPromoImage':
+                                bundlesData[index].verticalPromoImage,
+                          },
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          // Bundles Picure
+                          SizedBox(
+                            child: bundlesData[index].verticalPromoImage == null
+                                ? SizedBox()
+                                : Image.network(
+                                    fit: BoxFit.cover,
+                                    bundlesData[index]
+                                        .verticalPromoImage
+                                        .toString(),
+                                  ),
                           ),
-                        ),
-                      ],
+
+                          // Bundles Name
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 212,
+                              height: 30,
+                              color: Colors.white,
+                              child: Text(bundlesData[index].displayName),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),
