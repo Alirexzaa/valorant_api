@@ -89,7 +89,7 @@ class _NewHomePageState extends State<NewHomePage> {
               CustomInkResposne(
                 size: size,
                 pagename: const WeaponsPage(),
-                assetDir: 'assets/images/Weapons.png',
+                assetDir: 'assets/images/weapon.png',
                 name: 'Weapons',
               ),
               const SizedBox(height: 30),
