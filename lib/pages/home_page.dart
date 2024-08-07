@@ -7,6 +7,7 @@ import 'package:valorant_api/model/agents_model.dart';
 import 'package:valorant_api/model/maps_model.dart';
 import 'package:animations/animations.dart';
 import 'package:valorant_api/pages/agentPage/agent_page.dart';
+import 'package:valorant_api/pages/bundlesPage/bundles_page.dart';
 import 'package:valorant_api/pages/mapPage/map_page.dart';
 import 'package:valorant_api/pages/weaponPage/weapons_page.dart';
 
@@ -90,6 +91,14 @@ class _NewHomePageState extends State<NewHomePage> {
                 pagename: const WeaponsPage(),
                 assetDir: 'assets/images/Weapons.png',
                 name: 'Weapons',
+              ),
+              const SizedBox(height: 30),
+
+              CustomInkResposne(
+                size: size,
+                pagename: const BundlesPage(),
+                assetDir: 'assets/images/fullportrait.png',
+                name: 'Bundles',
               ),
               const SizedBox(height: 30),
             ],

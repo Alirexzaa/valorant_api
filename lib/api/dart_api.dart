@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:valorant_api/model/bundles_model.dart';
 import 'package:valorant_api/model/maps_model.dart';
 import 'package:valorant_api/model/sprays_model.dart';
 import 'package:valorant_api/model/weapons_model.dart';
@@ -47,5 +48,16 @@ Future<Sprays> fetchSprays() async {
     return Sprays.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('FAILD TO LOAD Sprays');
+  }
+}
+
+Future<Bundles> fetchBundles() async {
+  final response =
+      await http.get(Uri.https('www.valorant-api.com', '/v1/bundles'));
+
+  if (response.statusCode == 200) {
+    return Bundles.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('FAILD TO LOAD Bundles');
   }
 }
