@@ -78,7 +78,7 @@ class _BundlesPageState extends State<BundlesPage> {
                           // Bundles Picure
                           SizedBox(
                             child: bundlesData[index].verticalPromoImage == null
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : Image.network(
                                     fit: BoxFit.cover,
                                     bundlesData[index]

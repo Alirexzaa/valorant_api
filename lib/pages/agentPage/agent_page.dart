@@ -407,7 +407,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
                                                 ),
                                               ],
                                             )
-                                      : SizedBox();
+                                      : const SizedBox();
                                 },
                               )
                             : ListView.builder(
@@ -486,7 +486,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
                                             ),
                                           ),
                                         )
-                                      : SizedBox();
+                                      : const SizedBox();
                                 },
                               )
 

@@ -98,14 +98,14 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                                           width: size.width,
                                           height: 60,
                                           child: skin.displayIcon == null
-                                              ? SizedBox()
+                                              ? const SizedBox()
                                               : Image.network(
                                                   skin.displayIcon.toString()),
                                         ),
                                       ),
                                     );
                                   } else {
-                                    return SizedBox();
+                                    return const SizedBox();
                                   }
                                 },
                               ),
