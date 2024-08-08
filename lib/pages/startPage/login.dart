@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 
 class LogInPage extends StatefulWidget {
@@ -11,23 +13,29 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  late RiveAnimationController _idleController;
-  late RiveAnimationController _successController;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _idleController = SimpleAnimation('idle');
-    _successController = SimpleAnimation('success');
+  StateMachineController? stateMachineController;
+  SMIInput<bool>? isChecking;
+  SMIInput<bool>? isHadnsUp;
+  SMIInput<bool>? trigSuccess;
+  SMIInput<bool>? trigFail;
+  SMINumber? numLook;
+
+  void isCheckField() {
+    isHadnsUp?.change(false);
+    isChecking?.change(true);
+    numLook?.change(0);
   }
 
-  void _onLoginPressed() {
-    // Replace this with your actual login logic
-    // For demonstration purposes, we'll just toggle the animation
-    setState(() {
-      _idleController.isActive = false;
-      _successController.isActive = true;
-    });
+  void moveEyes(value) {
+    numLook?.change(value.length.toDouble());
+  }
+
+  void hidePassword() {
+    isHadnsUp?.change(true);
   }
 
   @override
@@ -35,33 +43,83 @@ class _LogInPageState extends State<LogInPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: HexColor('d6e2ea'),
       body: SizedBox(
         width: size.width,
         height: size.height,
-        child: Column(
-          children: [
-            SizedBox(
-              width: size.width,
-              height: 300,
-              child: RiveAnimation.asset(
-                controllers: [_idleController, _successController],
-                'assets/animation/animated_login_character.riv',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                width: size.width,
+                height: 300,
+                child: RiveAnimation.asset(
+                  'assets/animation/animated_login_character.riv',
+                  stateMachines: const ['Login Machine'],
+                  onInit: (artboard) {
+                    stateMachineController =
+                        StateMachineController.fromArtboard(
+                            artboard, 'Login Machine');
+                    if (stateMachineController == null) return;
+                    artboard.addController(stateMachineController!);
+                    isChecking =
+                        stateMachineController?.findInput('isChecking');
+                    isHadnsUp = stateMachineController?.findInput('isHandsUp');
+                    trigSuccess =
+                        stateMachineController?.findInput('trigSuccess');
+                    trigFail = stateMachineController?.findInput('trigFail');
+                    numLook = stateMachineController?.findSMI('numLook');
+                  },
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: _onLoginPressed,
-              child: Text('Login'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _idleController.isActive = true;
-                  _successController.isActive = false;
-                });
-              },
-              child: Text('Reset'),
-            ),
-          ],
+              SizedBox(
+                width: size.width,
+                height: 500,
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            onChanged: moveEyes,
+                            onTap: isCheckField,
+                            validator: (value) {
+                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value.toString())) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            onTap: hidePassword,
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    isChecking?.change(false);
+                    isHadnsUp?.change(false);
+                    trigFail?.change(false);
+                    trigSuccess?.change(true);
+                  } else {
+                    isChecking?.change(false);
+                    isHadnsUp?.change(false);
+                    trigFail?.change(true);
+                    trigSuccess?.change(false);
+                  }
+                },
+                child: Text('Login'),
+              ),
+            ],
+          ),
         ),
       ),
     );
