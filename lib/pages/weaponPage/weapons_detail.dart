@@ -16,6 +16,7 @@ class WeaponsDetail extends StatefulWidget {
 
 class _WeaponsDetailState extends State<WeaponsDetail> {
   int currrentIndex = 0;
+  int skinIndex = 0;
   final PageController pageController = PageController(initialPage: 0);
 
   TextStyle detailStyle = const TextStyle(
@@ -136,6 +137,11 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                       child: Stack(
                         children: [
                           PageView.builder(
+                            onPageChanged: (value) {
+                              setState(() {
+                                skinIndex = value;
+                              });
+                            },
                             controller: pageController,
                             scrollDirection: Axis.horizontal,
                             itemCount: weaponData[weaponIndex].skins.length,
@@ -210,9 +216,18 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                                                           pageController
                                                               .jumpToPage(
                                                                   index);
+                                                          Navigator.pop(
+                                                              context);
                                                         });
                                                       },
-                                                      child: Container(
+                                                      child: AnimatedContainer(
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 1),
+                                                        color:
+                                                            skinIndex == index
+                                                                ? Colors.grey
+                                                                : Colors.white,
                                                         width: size.width,
                                                         height: 137,
                                                         alignment:

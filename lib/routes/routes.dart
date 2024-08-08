@@ -7,6 +7,7 @@ import 'package:valorant_api/pages/mapPage/maps_detail.dart';
 import 'package:valorant_api/pages/home_page.dart';
 import 'package:valorant_api/pages/agentPage/agent_page.dart';
 import 'package:valorant_api/pages/sprayPage/sprays_page.dart';
+import 'package:valorant_api/pages/startPage/login.dart';
 import 'package:valorant_api/pages/weaponPage/weapons_detail.dart';
 import 'package:valorant_api/pages/weaponPage/weapons_page.dart';
 
@@ -24,4 +25,5 @@ final Map<String, WidgetBuilder> routes = {
   SpraysPage.routeName: (context) => const SpraysPage(),
   BundlesPage.routeName: (context) => const BundlesPage(),
   BundlesDetailPage.routeName: (context) => const BundlesDetailPage(),
+  LogInPage.routeName: (context) => const LogInPage(),
 };

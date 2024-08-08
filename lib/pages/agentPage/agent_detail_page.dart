@@ -78,6 +78,20 @@ class _DetailState extends State<AgentDetail> {
                                         .toString()),
                               ),
                             ),
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              right: -20,
+                              bottom: -20,
+                              child: Image.network(
+                                  color: Colors.grey[900]!.withOpacity(0.5),
+                                  filterQuality: FilterQuality.high,
+                                  scale: 2,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.center,
+                                  agent.data[agentIndex].fullPortrait
+                                      .toString()),
+                            ),
                             SizedBox(
                               width: size.width,
                               height: size.height,
