@@ -226,12 +226,24 @@ class _LogInPageState extends State<LogInPage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/SignupPage');
                 },
                 child: const Text(
                   'You havent created an account yet?',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/HomePage');
+                },
+                child: const Text(
+                  'Skip',
                   style: TextStyle(
                     color: Colors.white,
                   ),

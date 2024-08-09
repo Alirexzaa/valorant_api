@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:rive/rive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/agents_model.dart';
 import 'package:valorant_api/model/maps_model.dart';
@@ -12,7 +14,7 @@ import 'package:valorant_api/pages/mapPage/map_page.dart';
 import 'package:valorant_api/pages/weaponPage/weapons_page.dart';
 
 class NewHomePage extends StatefulWidget {
-  static String routeName = '/NewHomePage';
+  static String routeName = '/HomePage';
 
   const NewHomePage({super.key});
 
@@ -28,6 +30,26 @@ class _NewHomePageState extends State<NewHomePage> {
   int searchIndex = 0;
   TextEditingController searchString = TextEditingController();
   List<String> filtersName = ['Agents', 'Maps'];
+  late String name = '';
+  String emailCheck = '';
+  String paswordCheck = '';
+  late int imageIndex = 0;
+  String agentBackgroundColor = 'e9404f';
+
+  Future<void> _readData() async {
+    final prefs = await SharedPreferences.getInstance();
+    name = prefs.getString('username') ?? '';
+    emailCheck = prefs.getString('email') ?? '';
+    paswordCheck = prefs.getString('password') ?? '';
+    imageIndex = prefs.getInt('imageIndex') ?? 0;
+  }
+
+  @override
+  void initState() {
+    _readData();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +72,49 @@ class _NewHomePageState extends State<NewHomePage> {
         centerTitle: true,
       ),
       drawer: Drawer(
-        key: _scaffoldKey,
-        child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/SpraysPag');
+          backgroundColor: HexColor('e9404f'),
+          key: _scaffoldKey,
+          child: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                children: [
+                  SizedBox(
+                    width: size.width,
+                    height: 400,
+                    child: FutureBuilder(
+                      future: fetchAgents(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          var agentData = snapshot.data!.data;
+                          agentBackgroundColor =
+                              agentData[imageIndex].backgroundGradientColors[0];
+                          return Container(
+                            color: HexColor(
+                                    removeLastCharacter(agentBackgroundColor))
+                                .withOpacity(0.9),
+                            child: Image.network(
+                                agentData[imageIndex].fullPortrait.toString()),
+                          );
+                        }
+                        return const Center(
+                          child:
+                              RiveAnimation.asset('assets/animation/wait.riv'),
+                        );
+                      },
+                    ),
+                  ),
+                  customDetailWidget('name', name),
+                  customDetailWidget('Email', emailCheck),
+                  customDetailWidget('Password', paswordCheck),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/SpraysPag');
+                      },
+                      child: const Text('Sprays')),
+                ],
+              );
             },
-            child: const Text('Sprays')),
-      ),
+          )),
       // body
       body: SingleChildScrollView(
         child: Align(
@@ -242,6 +300,50 @@ class _NewHomePageState extends State<NewHomePage> {
     );
   }
 
+  Padding customDetailWidget(
+    String lable,
+    String category,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 15.0, bottom: 5),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              lable,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 20.0),
+            alignment: Alignment.centerLeft,
+            width: 270,
+            height: 60,
+            decoration: BoxDecoration(color: Colors.black, boxShadow: [
+              BoxShadow(
+                offset: const Offset(10, 10),
+                blurRadius: 10.0,
+                color: HexColor(removeLastCharacter(agentBackgroundColor)),
+              ),
+            ]),
+            child: Text(
+              category,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // Search Method for find and show maps with names
   FutureBuilder<Maps> searchMaps(Size size) {
     return FutureBuilder(
@@ -367,6 +469,11 @@ class _NewHomePageState extends State<NewHomePage> {
         return const SizedBox();
       },
     );
+  }
+
+  // DELETE 2 CHARACTER FROM LAST STRING
+  String removeLastCharacter(String input) {
+    return input.substring(0, input.length - 2);
   }
 }
 
