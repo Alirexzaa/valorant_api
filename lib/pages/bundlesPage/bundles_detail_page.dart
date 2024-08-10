@@ -91,12 +91,11 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: InkResponse(
                                         onTap: () {
-                                          test.add(weapons[weaponIndex]);
-                                          print(test);
+                                          print('sdsadsad');
                                         },
                                         child: SizedBox(
                                           width: size.width,
-                                          height: 60,
+                                          height: 70,
                                           child: skin.displayIcon == null
                                               ? const SizedBox()
                                               : Image.network(

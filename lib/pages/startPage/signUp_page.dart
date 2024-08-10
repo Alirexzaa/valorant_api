@@ -31,6 +31,11 @@ class _SignupPageState extends State<SignupPage> {
     await prefs.setInt('imageIndex', imageIndex);
   }
 
+  // DELETE 2 CHARACTER FROM LAST STRING
+  String removeLastCharacter(String input) {
+    return input.substring(0, input.length - 2);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -284,10 +289,5 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
-  }
-
-  // DELETE 2 CHARACTER FROM LAST STRING
-  String removeLastCharacter(String input) {
-    return input.substring(0, input.length - 2);
   }
 }

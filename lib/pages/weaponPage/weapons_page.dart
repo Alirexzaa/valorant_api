@@ -379,6 +379,12 @@ class _WeaponsState extends State<WeaponsPage> {
                     if (snapshot.hasData) {
                       var weapons = snapshot.data!.data;
                       return InkResponse(
+                        onDoubleTap: () {
+                          setState(() {
+                            Navigator.pushNamed(context, '/DetailNewWeapon',
+                                arguments: nextpage);
+                          });
+                        },
                         onTap: () {
                           setState(() {
                             nextpage['data'] = fillterWeapons.isEmpty

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class WeaponsDetail extends StatefulWidget {
   static String routeName = '/weaponsDetail';
@@ -24,24 +23,6 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
     fontWeight: FontWeight.bold,
   );
 
-  // Widget _indicator(bool isActive) {
-  //   return AnimatedContainer(
-  //     duration: const Duration(
-  //         milliseconds: 300), // microseconds به milliseconds تغییر داده شد
-  //     height: 10.0,
-  //     width: isActive ? 20.0 : 8.0,
-  //     margin: const EdgeInsets.only(right: 5.0),
-  //     decoration: BoxDecoration(
-  //       color: Colors.red,
-  //       borderRadius: BorderRadius.circular(5.0),
-  //     ),
-  //   );
-  // }
-
-  // List<Widget> _buildIndicator(int len) {
-  //   return List.generate(len, (index) => _indicator(index == currrentIndex));
-  // }
-
   @override
   Widget build(BuildContext context) {
     // GET SIZE OF DISPLAY IN USE
@@ -52,382 +33,262 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
     int weaponIndex = pastPage['index'];
     // int weaponIndex = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: HexColor('e9404f'),
-        title: Text(
-          weaponData[weaponIndex].displayName,
-          style: const TextStyle(
-            fontSize: 32,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              weaponData[weaponIndex].category.split('::')[1].toString(),
-              style: const TextStyle(
-                fontSize: 23,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+      backgroundColor: HexColor('0f1923'),
+      body: FutureBuilder(
+        future: fetchWeapons(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            // var weaponData = snapshot.data!.data;
+            return SizedBox(
+              width: size.width,
+              height: size.height,
+              child: Stack(
+                children: [
+                  // weapon picture
+                  Container(
+                    alignment: Alignment.topCenter,
+                    width: size.width,
+                    height: 447,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          right: -60,
+                          top: -30,
+                          bottom: -110,
+                          child: SvgPicture.asset(
+                            height: 500,
+                            'assets/images/red_box.svg',
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Image.network(
+                              weaponData[weaponIndex].displayIcon),
+                        ),
+// App Bar
+                        Positioned(
+                          top: 50,
+                          left: 30,
+                          child: IconButton(
+                            iconSize: 30,
+                            color: HexColor('e9404f'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.arrow_back_ios),
+                          ),
+                        ),
+                        const Positioned(
+                          top: 40,
+                          left: 110,
+                          child: Text(
+                            'Weapon Details',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+// Details
+                  Positioned(
+                    bottom: 300,
+                    top: 380,
+                    left: 0,
+                    right: 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        DetailRow(
+                          detail: weaponData[weaponIndex]
+                              .category
+                              .split('::')[1]
+                              .toLowerCase(),
+                          name: 'Type',
+                        ),
+                        Container(
+                          width: size.width - 50,
+                          height: 1,
+                          color: Colors.white,
+                        ),
+                        DetailRow(
+                          detail:
+                              weaponData[weaponIndex].shopData!.cost.toString(),
+                          name: 'Creds',
+                        ),
+                        Container(
+                          width: size.width - 50,
+                          height: 1,
+                          color: Colors.white,
+                        ),
+                        DetailRow(
+                          detail: weaponData[weaponIndex]
+                              .weaponStats!
+                              .magazineSize
+                              .toString(),
+                          name: 'Magazine',
+                        ),
+                        Container(
+                          width: size.width - 50,
+                          height: 1,
+                          color: Colors.white,
+                        ),
+                        DetailRow(
+                          detail: weaponData[weaponIndex]
+                              .weaponStats!
+                              .fireRate
+                              .toString(),
+                          name: 'FireRate',
+                        ),
+                        Container(
+                          width: size.width - 50,
+                          height: 1,
+                          color: Colors.white,
+                        ),
+                        DetailRow(
+                          detail: weaponData[weaponIndex]
+                              .weaponStats!
+                              .damageRanges[0]
+                              .headDamage
+                              .toString(),
+                          name: 'HeadDamage',
+                        ),
+                        Container(
+                          width: size.width - 50,
+                          height: 1,
+                          color: Colors.white,
+                        ),
+                        DetailRow(
+                          detail: weaponData[weaponIndex]
+                              .weaponStats!
+                              .damageRanges[0]
+                              .bodyDamage
+                              .toString(),
+                          name: 'BodyDamage',
+                        ),
+                        Container(
+                          width: size.width - 50,
+                          height: 1,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+// Skins
+                  const Positioned(
+                    bottom: 230,
+                    left: 10,
+                    child: Text(
+                      'Skins : ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    left: 0,
+                    right: 0,
+                    child: SizedBox(
+                      width: size.width,
+                      height: 190,
+                      child: GridView.builder(
+                        itemCount: weaponData[weaponIndex].skins.length,
+                        scrollDirection: Axis.horizontal,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          mainAxisExtent: 360,
+                          crossAxisCount: 1,
+                        ),
+                        itemBuilder: (context, index) {
+                          return weaponData[weaponIndex]
+                                      .skins[index]
+                                      .displayIcon !=
+                                  null
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: 220,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red),
+                                    ),
+                                    child: Image.network(
+                                      weaponData[weaponIndex]
+                                          .skins[index]
+                                          .displayIcon
+                                          .toString(),
+                                    ),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: 220,
+                                    height: 60,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red),
+                                    ),
+                                    child: Text(
+                                      'Not Available',
+                                      style: TextStyle(
+                                          fontSize: 50,
+                                          color: Colors.red.withOpacity(0.5)),
+                                    ),
+                                  ),
+                                );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class DetailRow extends StatelessWidget {
+  const DetailRow({
+    super.key,
+    required this.name,
+    required this.detail,
+  });
+
+  final String name;
+  final String detail;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            name,
+            style: TextStyle(fontSize: 30, color: HexColor('e9404f')),
+          ),
+          Text(
+            detail,
+            style: TextStyle(fontSize: 30, color: Colors.white),
           ),
         ],
-      ),
-      backgroundColor: HexColor('e9404f'),
-      body: SizedBox(
-        width: size.width,
-        height: size.height,
-        child: FutureBuilder(
-          future: fetchWeapons(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              // var weaponData = snapshot.data!.data;
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // weapon picture
-                    SizedBox(
-                      width: 500,
-                      height: 220,
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: SvgPicture.asset(
-                                height: 220,
-                                'assets/images/Weaponspicure_detailpage.svg'),
-                          ),
-                          Positioned(
-                            top: 30,
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: Image.network(
-                                  height: weaponData[weaponIndex].displayName ==
-                                          'Melee'
-                                      ? 110
-                                      : 220,
-                                  weaponData[weaponIndex].displayIcon),
-                            ),
-                          ),
-                          Positioned(
-                              top: 10,
-                              left: 30,
-                              child: Text(
-                                "Defult Skin",
-                                style: TextStyle(
-                                  color: HexColor('e9404f'),
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                        ],
-                      ),
-                    ),
-                    // Skins
-                    const SizedBox(height: 20),
-
-                    Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      width: 500,
-                      height: 260,
-                      child: Stack(
-                        children: [
-                          PageView.builder(
-                            onPageChanged: (value) {
-                              setState(() {
-                                skinIndex = value;
-                              });
-                            },
-                            controller: pageController,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: weaponData[weaponIndex].skins.length,
-                            itemBuilder: (context, index) {
-                              return InkResponse(
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 10,
-                                      child: SizedBox(
-                                        width: size.width - 42,
-                                        child: SvgPicture.asset(
-                                            width: size.width,
-                                            'assets/images/SkinBox.svg'),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 30,
-                                      right: 30,
-                                      child: Text(
-                                        weaponData[weaponIndex]
-                                            .skins[index]
-                                            .displayName,
-                                        style: detailStyle,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      child: Container(
-                                        padding: const EdgeInsets.only(top: 30),
-                                        alignment: Alignment.center,
-                                        child: Image.network(
-                                            height: weaponData[weaponIndex]
-                                                        .displayName ==
-                                                    'Melee'
-                                                ? 110
-                                                : 110,
-                                            weaponData[weaponIndex]
-                                                        .skins[index]
-                                                        .displayIcon !=
-                                                    null
-                                                ? weaponData[weaponIndex]
-                                                    .skins[index]
-                                                    .displayIcon
-                                                    .toString()
-                                                : weaponData[weaponIndex]
-                                                    .skins[index]
-                                                    .levels[0]['displayIcon']
-                                                    .toString()),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        shape: const RoundedRectangleBorder(),
-                                        child: SizedBox(
-                                          width: 500,
-                                          height: 500,
-                                          child: ListView.builder(
-                                            itemCount: weaponData.length,
-                                            itemBuilder: (context, index) {
-                                              return weaponData[weaponIndex]
-                                                          .skins[index]
-                                                          .displayIcon !=
-                                                      null
-                                                  ? InkResponse(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          pageController
-                                                              .jumpToPage(
-                                                                  index);
-                                                          Navigator.pop(
-                                                              context);
-                                                        });
-                                                      },
-                                                      child: AnimatedContainer(
-                                                        duration:
-                                                            const Duration(
-                                                                seconds: 1),
-                                                        color:
-                                                            skinIndex == index
-                                                                ? Colors.grey
-                                                                : Colors.white,
-                                                        width: size.width,
-                                                        height: 137,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Column(
-                                                          children: [
-                                                            Text(weaponData[
-                                                                    weaponIndex]
-                                                                .skins[index]
-                                                                .displayName),
-                                                            Image.network(
-                                                                width:
-                                                                    size.width,
-                                                                height: 90,
-                                                                weaponData[
-                                                                        weaponIndex]
-                                                                    .skins[
-                                                                        index]
-                                                                    .displayIcon
-                                                                    .toString()),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : const SizedBox();
-                                            },
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          Positioned(
-                            bottom: 30,
-                            left: 80,
-                            right: 10,
-                            child: SmoothPageIndicator(
-                              controller: pageController, // PageController
-                              count: weaponData[weaponIndex].skins.length,
-                              effect: ScrollingDotsEffect(
-                                maxVisibleDots: 11,
-                                activeDotColor: HexColor('e9404f'),
-                              ), // your preferred effect
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    // Information
-                    SizedBox(
-                      width: size.width,
-                      height: 323,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 10,
-                            right: 10,
-                            child: SvgPicture.asset(
-                                width: size.width - 40,
-                                'assets/images/detail_weapons.svg'),
-                          ),
-                          Positioned(
-                            top: 10,
-                            left: 40,
-                            right: 10,
-                            child: Text(
-                              'Details',
-                              style: TextStyle(
-                                color: HexColor('e9404f'),
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                              top: 50,
-                              left: 40,
-                              right: 10,
-                              child: Text(
-                                weaponData[weaponIndex].displayName == 'Melee'
-                                    ? ''
-                                    : 'Cost  ${weaponData[weaponIndex].shopData!.cost.toString()}',
-                                style: detailStyle,
-                              )),
-                          Positioned(
-                            top: 90,
-                            left: 40,
-                            right: 10,
-                            child: Text(
-                              'Fire Rate : ${weaponData[weaponIndex].displayName == 'Melee' ? '' : weaponData[weaponIndex].weaponStats!.fireRate}',
-                              style: detailStyle,
-                            ),
-                          ),
-                          Positioned(
-                            top: 120,
-                            left: 40,
-                            right: 110,
-                            child: SizedBox(
-                              width: 270,
-                              height: 15,
-                              child: LinearProgressIndicator(
-                                  backgroundColor: HexColor('e9404f'),
-                                  value: (weaponData[weaponIndex]
-                                              .weaponStats
-                                              ?.fireRate ??
-                                          0 * 1.0) /
-                                      16),
-                            ),
-                          ),
-                          Positioned(
-                            top: 150,
-                            left: 40,
-                            right: 10,
-                            child: Text(
-                              'Run Speed Multiplier : ${weaponData[weaponIndex].displayName == 'Melee' ? '' : weaponData[weaponIndex].weaponStats!.runSpeedMultiplier}',
-                              style: detailStyle,
-                            ),
-                          ),
-                          Positioned(
-                            top: 180,
-                            left: 40,
-                            right: 110,
-                            child: SizedBox(
-                              width: 270,
-                              height: 15,
-                              child: LinearProgressIndicator(
-                                  backgroundColor: HexColor('e9404f'),
-                                  value: (weaponData[weaponIndex]
-                                              .weaponStats
-                                              ?.runSpeedMultiplier ??
-                                          0 * 1.0) /
-                                      16),
-                            ),
-                          ),
-                          Positioned(
-                            top: 210,
-                            left: 40,
-                            right: 10,
-                            child: Text(
-                              'reloadTimeSeconds : ${weaponData[weaponIndex].displayName == 'Melee' ? '' : weaponData[weaponIndex].weaponStats!.reloadTimeSeconds}',
-                              style: detailStyle,
-                            ),
-                          ),
-                          Positioned(
-                            top: 240,
-                            left: 40,
-                            right: 110,
-                            child: SizedBox(
-                              width: 270,
-                              height: 15,
-                              child: LinearProgressIndicator(
-                                  backgroundColor: HexColor('e9404f'),
-                                  value: (weaponData[weaponIndex]
-                                              .weaponStats
-                                              ?.reloadTimeSeconds ??
-                                          0 * 1.0) /
-                                      16),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    // Positioned(
-                    //   top: 500,
-                    //   left: 100,
-                    //   right: 100,
-                    //   child: SizedBox(
-                    //     width: size.width,
-                    //     height: 500,
-                    //     child: CustomCarousel(
-                    //       effectsBuilder: (index, scrollRatio, child) =>
-                    //           Transform.translate(
-                    //               offset: Offset(0, scrollRatio * 250),
-                    //               child: child),
-                    //       children: [
-                    //         Text('ss'),
-                    //         Text('ss'),
-                    //         Text('ss'),
-                    //         Text('ss'),
-                    //         Text('ss'),
-                    //         Text('ss'),
-                    //         Text('ss'),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
       ),
     );
   }

@@ -47,7 +47,6 @@ class _NewHomePageState extends State<NewHomePage> {
   @override
   void initState() {
     _readData();
-
     super.initState();
   }
 
@@ -71,6 +70,7 @@ class _NewHomePageState extends State<NewHomePage> {
         ),
         centerTitle: true,
       ),
+      // Drawer
       drawer: Drawer(
           backgroundColor: HexColor('e9404f'),
           key: _scaffoldKey,
@@ -103,9 +103,13 @@ class _NewHomePageState extends State<NewHomePage> {
                       },
                     ),
                   ),
-                  customDetailWidget('name', name),
-                  customDetailWidget('Email', emailCheck),
-                  customDetailWidget('Password', paswordCheck),
+                  customDetailWidget('name', name, agentBackgroundColor),
+                  customDetailWidget('Email', emailCheck, agentBackgroundColor),
+                  customDetailWidget(
+                      'Password', paswordCheck, agentBackgroundColor),
+                  Text(emailCheck),
+                  Text(paswordCheck),
+                  Text(imageIndex.toString()),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/SpraysPag');
@@ -303,6 +307,7 @@ class _NewHomePageState extends State<NewHomePage> {
   Padding customDetailWidget(
     String lable,
     String category,
+    String agentBackgroundColor,
   ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
