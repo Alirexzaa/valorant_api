@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
@@ -23,27 +22,9 @@ class _WeaponsState extends State<WeaponsPage> {
   TextEditingController searchController = TextEditingController();
 
   Map<String, dynamic> nextpage = {};
-  Map<String, Color> weaponsColors = <String, Color>{
-    'heavy': Colors.yellow,
-    'rifle': Colors.green,
-    'shotgun': Colors.orange,
-    'sidearm': Colors.blue,
-    'sniper': Colors.deepPurple,
-    'smg': Colors.pinkAccent,
-    'melee': Colors.teal
-  };
 
   List<WeaponsData> fillterWeapons = [];
-  List filterColors = [
-    Colors.blueGrey,
-    Colors.yellow,
-    Colors.green,
-    Colors.orange,
-    Colors.blue,
-    Colors.deepPurple,
-    Colors.pinkAccent,
-    Colors.teal,
-  ];
+
   List<String> filterName = [
     'all',
     'heavy',
@@ -168,7 +149,7 @@ class _WeaponsState extends State<WeaponsPage> {
               const SizedBox(height: 20),
               // Weapons Image
               SizedBox(
-                height: size.height - 100,
+                height: size.height - 200,
                 width: size.width - 30,
                 child: FutureBuilder(
                   future: fetchWeapons(),

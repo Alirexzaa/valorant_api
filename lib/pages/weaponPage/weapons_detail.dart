@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
 
@@ -64,9 +65,17 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                         Container(
                           alignment: Alignment.center,
                           child: Image.network(
-                              weaponData[weaponIndex].displayIcon),
+                            height: weaponData[weaponIndex]
+                                        .category
+                                        .split('::')[1]
+                                        .toLowerCase() ==
+                                    'sidearm'
+                                ? 223
+                                : 447,
+                            weaponData[weaponIndex].displayIcon,
+                          ),
                         ),
-// App Bar
+                        // App Bar
                         Positioned(
                           top: 50,
                           left: 30,
@@ -94,7 +103,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                       ],
                     ),
                   ),
-// Details
+                  // Details
                   Positioned(
                     bottom: 300,
                     top: 380,
@@ -115,61 +124,73 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                           height: 1,
                           color: Colors.white,
                         ),
-                        DetailRow(
-                          detail:
-                              weaponData[weaponIndex].shopData!.cost.toString(),
-                          name: 'Creds',
-                        ),
+                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
+                            'melee')
+                          DetailRow(
+                            detail: weaponData[weaponIndex]
+                                .shopData!
+                                .cost
+                                .toString(),
+                            name: 'Creds',
+                          ),
                         Container(
                           width: size.width - 50,
                           height: 1,
                           color: Colors.white,
                         ),
-                        DetailRow(
-                          detail: weaponData[weaponIndex]
-                              .weaponStats!
-                              .magazineSize
-                              .toString(),
-                          name: 'Magazine',
-                        ),
+                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
+                            'melee')
+                          DetailRow(
+                            detail: weaponData[weaponIndex]
+                                .weaponStats!
+                                .magazineSize
+                                .toString(),
+                            name: 'Magazine',
+                          ),
                         Container(
                           width: size.width - 50,
                           height: 1,
                           color: Colors.white,
                         ),
-                        DetailRow(
-                          detail: weaponData[weaponIndex]
-                              .weaponStats!
-                              .fireRate
-                              .toString(),
-                          name: 'FireRate',
-                        ),
+                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
+                            'melee')
+                          DetailRow(
+                            detail: weaponData[weaponIndex]
+                                .weaponStats!
+                                .fireRate
+                                .toString(),
+                            name: 'FireRate',
+                          ),
                         Container(
                           width: size.width - 50,
                           height: 1,
                           color: Colors.white,
                         ),
-                        DetailRow(
-                          detail: weaponData[weaponIndex]
-                              .weaponStats!
-                              .damageRanges[0]
-                              .headDamage
-                              .toString(),
-                          name: 'HeadDamage',
-                        ),
+                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
+                            'melee')
+                          DetailRow(
+                            detail: weaponData[weaponIndex]
+                                .weaponStats!
+                                .damageRanges[0]
+                                .headDamage
+                                .toString(),
+                            name: 'HeadDamage',
+                          ),
                         Container(
                           width: size.width - 50,
                           height: 1,
                           color: Colors.white,
                         ),
-                        DetailRow(
-                          detail: weaponData[weaponIndex]
-                              .weaponStats!
-                              .damageRanges[0]
-                              .bodyDamage
-                              .toString(),
-                          name: 'BodyDamage',
-                        ),
+                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
+                            'melee')
+                          DetailRow(
+                            detail: weaponData[weaponIndex]
+                                .weaponStats!
+                                .damageRanges[0]
+                                .bodyDamage
+                                .toString(),
+                            name: 'BodyDamage',
+                          ),
                         Container(
                           width: size.width - 50,
                           height: 1,
@@ -178,7 +199,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                       ],
                     ),
                   ),
-// Skins
+                  // Skins
                   Positioned(
                     bottom: 230,
                     left: 10,
@@ -258,7 +279,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
             );
           }
           return const Center(
-            child: CircularProgressIndicator(),
+            child: RiveAnimation.asset('assets/animation/wait.riv'),
           );
         },
       ),
