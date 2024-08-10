@@ -55,11 +55,11 @@ class _NewHomePageState extends State<NewHomePage> {
     // GET SIZE OF DISPLAY IN USE
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: HexColor('e9404f'),
+      backgroundColor: HexColor('0f1923'),
       // App bar
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: HexColor('e9404f'),
+        backgroundColor: HexColor('0f1923'),
         title: const Text(
           'HomePage',
           style: TextStyle(
@@ -130,7 +130,7 @@ class _NewHomePageState extends State<NewHomePage> {
               CustomInkResposne(
                 size: size,
                 pagename: const NewAgentPage(),
-                assetDir: 'assets/images/fullportrait.png',
+                assetDir: 'assets/images/Agents.png',
                 name: 'Agents',
               ),
               const SizedBox(height: 30),
@@ -159,7 +159,7 @@ class _NewHomePageState extends State<NewHomePage> {
               CustomInkResposne(
                 size: size,
                 pagename: const BundlesPage(),
-                assetDir: 'assets/images/fullportrait.png',
+                assetDir: 'assets/images/weapon.png',
                 name: 'Bundles',
               ),
               const SizedBox(height: 30),
@@ -181,7 +181,7 @@ class _NewHomePageState extends State<NewHomePage> {
             () {
               showModalBottomSheet(
                 showDragHandle: true,
-                backgroundColor: HexColor('e9404f'),
+                backgroundColor: HexColor('0f1923'),
                 shape: const RoundedRectangleBorder(),
                 context: context,
                 builder: (context) {
@@ -190,7 +190,7 @@ class _NewHomePageState extends State<NewHomePage> {
                       return Container(
                         width: size.width,
                         height: size.height - 100,
-                        color: HexColor('e9404f'),
+                        color: HexColor('0f1923'),
                         child: Column(
                           children: [
                             // Filters
@@ -200,12 +200,13 @@ class _NewHomePageState extends State<NewHomePage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
+                                  Text(
                                     'Filters',
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 23),
+                                      color: HexColor('ff4655'),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 23,
+                                    ),
                                   ),
                                   SizedBox(
                                     height: 60,
@@ -218,7 +219,7 @@ class _NewHomePageState extends State<NewHomePage> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index, animation) {
                                         return InkResponse(
-                                          splashColor: HexColor('e9404f'),
+                                          splashColor: HexColor('0f1923'),
                                           onTap: () {
                                             setState(() {
                                               searchIndex = index;
@@ -228,17 +229,26 @@ class _NewHomePageState extends State<NewHomePage> {
                                             padding: const EdgeInsets.all(3.0),
                                             child: AnimatedContainer(
                                               duration: const Duration(
-                                                  milliseconds: 500),
+                                                milliseconds: 500,
+                                              ),
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
+                                                color: searchIndex == index
+                                                    ? HexColor('e9404f')
+                                                    : HexColor('0f1923'),
+                                                border: Border.all(
                                                   color: searchIndex == index
-                                                      ? Colors.black
+                                                      ? HexColor('0f1923')
                                                       : HexColor('e9404f'),
-                                                  border: Border.all()),
+                                                ),
+                                              ),
                                               child: Text(
                                                 filtersName[index],
-                                                style: const TextStyle(
-                                                    color: Colors.white),
+                                                style: TextStyle(
+                                                  color: searchIndex == index
+                                                      ? HexColor('0f1923')
+                                                      : Colors.red,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -258,7 +268,9 @@ class _NewHomePageState extends State<NewHomePage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 30.0, right: 30.0),
+                                    left: 30.0,
+                                    right: 30.0,
+                                  ),
                                   child: Center(
                                     child: TextFormField(
                                       controller: searchString,
@@ -270,7 +282,7 @@ class _NewHomePageState extends State<NewHomePage> {
                                       style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                         icon: Icon(
                                           Icons.search,
                                           color: Colors.white,
@@ -278,7 +290,7 @@ class _NewHomePageState extends State<NewHomePage> {
                                         border: InputBorder.none,
                                         hintText: 'Search',
                                         hintStyle: TextStyle(
-                                          color: Colors.white,
+                                          color: HexColor('e9404f'),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -500,12 +512,12 @@ class CustomInkResposne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
-      closedColor: HexColor('e9404f'),
+      closedColor: HexColor('0f1923'),
       // clipBehavior: Clip.none,
       closedElevation: 0.0,
       // closedShape:
       //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      middleColor: HexColor('e9404f'),
+      middleColor: HexColor('0f1923'),
       transitionDuration: const Duration(milliseconds: 350),
       transitionType: ContainerTransitionType.fadeThrough,
       closedBuilder: (context, action) {
@@ -513,34 +525,44 @@ class CustomInkResposne extends StatelessWidget {
           // onTap: () {
           //   Navigator.pushNamed(context, pagename);
           // },
-          child: Container(
-            alignment: Alignment.center,
-            width: 500,
-            height: 210,
-            child: Stack(
-              children: [
-                SvgPicture.asset(
-                  width: size.width,
-                  'assets/images/blackBox.svg',
-                ),
-                Image.asset(
-                  fit: BoxFit.cover,
-                  assetDir,
-                ),
-                Positioned(
-                  top: 70,
-                  bottom: 0,
-                  right: 50,
-                  child: Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              alignment: Alignment.center,
+              width: 500,
+              height: 210,
+              decoration: BoxDecoration(
+                border: Border.all(color: HexColor('ff4655')),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 45,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
+                    Stack(
+                      children: [
+                        SvgPicture.asset(
+                          height: 200,
+                          'assets/images/agentBack.svg',
+                        ),
+                        Image.asset(
+                          height: 140,
+                          fit: BoxFit.cover,
+                          assetDir,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );
