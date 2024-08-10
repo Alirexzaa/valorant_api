@@ -179,7 +179,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                     ),
                   ),
 // Skins
-                  const Positioned(
+                  Positioned(
                     bottom: 230,
                     left: 10,
                     child: Text(
@@ -187,7 +187,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28,
-                        color: Colors.red,
+                        color: HexColor('ff4655'),
                       ),
                     ),
                   ),
@@ -219,7 +219,8 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                                     width: 220,
                                     height: 60,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.red),
+                                      border:
+                                          Border.all(color: HexColor('ff4655')),
                                     ),
                                     child: Image.network(
                                       weaponData[weaponIndex]
@@ -236,13 +237,15 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                                     height: 60,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.red),
+                                      border:
+                                          Border.all(color: HexColor('ff4655')),
                                     ),
                                     child: Text(
                                       'Not Available',
                                       style: TextStyle(
                                           fontSize: 50,
-                                          color: Colors.red.withOpacity(0.5)),
+                                          color: HexColor('ff4655')
+                                              .withOpacity(0.5)),
                                     ),
                                   ),
                                 );
