@@ -57,14 +57,14 @@ class _LogInPageState extends State<LogInPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: HexColor('e9404f'),
-        title: const Text(
+        backgroundColor: HexColor('0f1923'),
+        title: Text(
           'Log in',
-          style: TextStyle(fontSize: 32),
+          style: TextStyle(fontSize: 32, color: HexColor('e9404f')),
         ),
         centerTitle: true,
       ),
-      backgroundColor: HexColor('e9404f'),
+      backgroundColor: HexColor('0f1923'),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -84,11 +84,14 @@ class _LogInPageState extends State<LogInPage> {
                 width: size.width - 70,
                 height: 350,
                 decoration: BoxDecoration(
-                  color: HexColor('ff4649'),
-                  boxShadow: const [
+                  border: Border.all(
+                    color: HexColor('ff4655'),
+                  ),
+                  color: HexColor('ff4655'),
+                  boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 10),
-                      color: Colors.black,
+                      offset: const Offset(0, 10),
+                      color: HexColor('ff4655'),
                       blurRadius: 10,
                     ),
                   ],
