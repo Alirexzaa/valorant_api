@@ -19,10 +19,11 @@ class _BundlesPageState extends State<BundlesPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: HexColor('e9404f'),
+      backgroundColor: HexColor('0f1923'),
       // App Bar
       appBar: AppBar(
         leading: IconButton(
+          color: HexColor('e9404f'),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -39,8 +40,9 @@ class _BundlesPageState extends State<BundlesPage> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: HexColor('e9404f'),
+        backgroundColor: HexColor('0f1923'),
       ),
+      // Body
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -55,7 +57,7 @@ class _BundlesPageState extends State<BundlesPage> {
                   itemCount: bundlesData.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 0,
+                    crossAxisSpacing: 10,
                     mainAxisSpacing: 20,
                     mainAxisExtent: 300,
                   ),
@@ -73,38 +75,51 @@ class _BundlesPageState extends State<BundlesPage> {
                           },
                         );
                       },
-                      child: Stack(
-                        children: [
-                          // Bundles Picure
-                          SizedBox(
-                            child: bundlesData[index].verticalPromoImage == null
-                                ? const SizedBox()
-                                : Image.network(
-                                    fit: BoxFit.cover,
-                                    bundlesData[index]
-                                        .verticalPromoImage
-                                        .toString(),
-                                  ),
-                          ),
-
-                          // Bundles Name
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 212,
-                              height: 30,
-                              color: Colors.white,
-                              child: Text(bundlesData[index].displayName),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: HexColor('ff4655')),
+                        ),
+                        child: Stack(
+                          children: [
+                            // Bundles Picure
+                            SizedBox(
+                              child:
+                                  bundlesData[index].verticalPromoImage == null
+                                      ? const SizedBox()
+                                      : Image.network(
+                                          fit: BoxFit.cover,
+                                          bundlesData[index]
+                                              .verticalPromoImage
+                                              .toString(),
+                                        ),
                             ),
-                          ),
-                        ],
+
+                            // Bundles Name
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 212,
+                                height: 30,
+                                color: HexColor('e9404f'),
+                                child: Text(
+                                  bundlesData[index].displayName,
+                                  style: TextStyle(
+                                    color: HexColor('0f1923'),
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
                 ),
               );
             }
+            // Loading Animation
             return const Center(
               child: RiveAnimation.asset('assets/animation/wait.riv'),
             );

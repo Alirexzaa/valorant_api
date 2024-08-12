@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
 
@@ -58,10 +59,10 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
               ),
             ),
             Positioned(
-              top: 150,
+              top: 90,
               child: SizedBox(
                 width: size.width,
-                height: size.height,
+                height: size.height - 100,
                 child: FutureBuilder(
                   future: fetchWeapons(),
                   builder: (context, snapshot) {
@@ -79,6 +80,7 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                                 itemBuilder: (context, skinIndex) {
                                   final skin =
                                       weapons[weaponIndex].skins[skinIndex];
+
                                   final displayName =
                                       skin.displayName.split(' ')[0];
                                   final bundleDisplayName =
@@ -88,18 +90,75 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
 
                                   if (displayName.contains(bundleDisplayName)) {
                                     return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: InkResponse(
-                                        onTap: () {
-                                          print('sdsadsad');
-                                        },
-                                        child: SizedBox(
-                                          width: size.width,
-                                          height: 70,
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8.0),
+                                        height: 230,
+                                        decoration: BoxDecoration(
+                                          color: HexColor('0f1923'),
+                                          border: Border.all(
+                                            color: HexColor('ff4655'),
+                                          ),
+                                        ),
+                                        child: InkResponse(
+                                          onTap: () {
+                                            print('sdsadsad');
+                                          },
                                           child: skin.displayIcon == null
                                               ? const SizedBox()
-                                              : Image.network(
-                                                  skin.displayIcon.toString()),
+                                              : Stack(
+                                                  children: [
+                                                    skin.wallpaper == null
+                                                        ? const SizedBox()
+                                                        : Image.network(
+                                                            filterQuality:
+                                                                FilterQuality
+                                                                    .high,
+                                                            width: size.width,
+                                                            skin.wallpaper
+                                                                .toString(),
+                                                          ),
+                                                    Container(
+                                                      alignment: Alignment
+                                                          .bottomCenter,
+                                                      child: Image.network(
+                                                        filterQuality:
+                                                            FilterQuality.high,
+                                                        height: 120,
+                                                        skin.displayIcon
+                                                            .toString(),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      left: 20,
+                                                      top: 20,
+                                                      child: Text(
+                                                        weapons[weaponIndex]
+                                                            .category
+                                                            .split('::')[1]
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                          color: HexColor(
+                                                              'ff4655'),
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      right: 20,
+                                                      left: 150,
+                                                      top: 20,
+                                                      child: Text(
+                                                        skin.displayName,
+                                                        style: TextStyle(
+                                                          color: HexColor(
+                                                              'ff4655'),
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                         ),
                                       ),
                                     );
@@ -114,7 +173,7 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                       );
                     }
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: RiveAnimation.asset('assets/animation/wait.riv'),
                     );
                   },
                 ),
