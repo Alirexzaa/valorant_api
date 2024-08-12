@@ -22,6 +22,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
   List searchData = [];
 
   PageController agentPageView = PageController();
+  CarouselController carouselController = CarouselController();
   ScrollController animatedGridAgent = ScrollController();
 
   @override
@@ -93,6 +94,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
                         onPageChanged: (value) {
                           setState(() {
                             selecteditem = value;
+                            carouselController.jumpToPage(value);
                           });
                         },
                         itemCount: agentDatas!.data.length,
@@ -322,10 +324,12 @@ class _NewAgentPageState extends State<NewAgentPage> {
                         height: searchBoxString.text.isEmpty ? 170 : 220,
                         child: searchBoxString.text.isEmpty
                             ? CarouselSlider.builder(
+                                carouselController: carouselController,
                                 options: CarouselOptions(
-                                    enableInfiniteScroll: false,
-                                    viewportFraction: 0.4,
-                                    animateToClosest: false),
+                                  enableInfiniteScroll: false,
+                                  viewportFraction: 0.4,
+                                  animateToClosest: false,
+                                ),
                                 itemCount: agentDatas!.data.length,
                                 itemBuilder: (context, index, realIndex) {
                                   return agentDatas.data[index].displayName
