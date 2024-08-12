@@ -6,7 +6,6 @@ import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
 import 'package:valorant_api/pages/skin_video_play.dart';
-import 'package:video_player/video_player.dart';
 
 class BundlesDetailPage extends StatefulWidget {
   static String routeName = '/BundlesDetailPage';

@@ -28,7 +28,15 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Get size of display in use
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: HexColor('0f1923'),
       appBar: AppBar(
@@ -51,13 +59,32 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
           ),
         ),
       ),
-      body: Center(
-        child: _controller.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              )
-            : const CircularProgressIndicator(),
+      body: Container(
+        alignment: Alignment.center,
+        width: size.width,
+        height: 250,
+        child: Stack(
+          children: [
+            Center(
+              child: _controller.value.isInitialized
+                  ? AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )
+                  : const CircularProgressIndicator(),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: VideoProgressIndicator(
+                _controller,
+                allowScrubbing: true,
+                padding: const EdgeInsets.all(10),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: HexColor('e9404f'),
