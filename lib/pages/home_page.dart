@@ -11,6 +11,7 @@ import 'package:animations/animations.dart';
 import 'package:valorant_api/pages/agentPage/agent_page.dart';
 import 'package:valorant_api/pages/bundlesPage/bundles_page.dart';
 import 'package:valorant_api/pages/mapPage/map_page.dart';
+import 'package:valorant_api/pages/tools.dart';
 import 'package:valorant_api/pages/weaponPage/weapons_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,6 +29,11 @@ class _HomePageState extends State<HomePage> {
   int selecteditem = 0;
   int searchIndex = 0;
   TextEditingController searchString = TextEditingController();
+  TextEditingController editName = TextEditingController();
+  TextEditingController editEmail = TextEditingController();
+  TextEditingController editPassword = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   List<String> filtersName = ['Agents', 'Maps'];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
@@ -37,6 +43,14 @@ class _HomePageState extends State<HomePage> {
   late String name = '';
   String emailCheck = '';
   String paswordCheck = '';
+  Future<void> _writeData() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', editName.text);
+    await prefs.setString('email', editEmail.text);
+    await prefs.setString('password', editPassword.text);
+    await prefs.setInt('imageIndex', imageIndex);
+    _readData();
+  }
 
   Future<void> _readData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -115,6 +129,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: HexColor('0f1923'),
+        // Drawer
         drawer: Drawer(
           backgroundColor: HexColor('0f1923'),
           child: FutureBuilder(
@@ -151,6 +166,144 @@ class _HomePageState extends State<HomePage> {
                                     agentBackgroundColor, size),
                                 customDetailWidget('Password', paswordCheck,
                                     agentBackgroundColor, size),
+                                const SizedBox(height: 30),
+                                InkResponse(
+                                  onTap: () {
+                                    // Navigator.pushNamed(context, '/SignupPage');
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          backgroundColor: HexColor('0f1923')
+                                              .withOpacity(0.9),
+                                          child: SizedBox(
+                                            width: size.width,
+                                            child: Form(
+                                              key: _formKey,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15.0),
+                                                    child: CustomTextFormField(
+                                                      size: size,
+                                                      nameController: editName,
+                                                      name: 'Name',
+                                                      regex:
+                                                          r'([a-zA-Z0-9_\s]+)',
+                                                      error:
+                                                          'please enter a vaild name',
+                                                      backColor:
+                                                          removeLastCharacter(
+                                                        agentData[imageIndex]
+                                                            .backgroundGradientColors[0],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15.0),
+                                                    child: CustomTextFormField(
+                                                      size: size,
+                                                      nameController: editEmail,
+                                                      name: 'Email',
+                                                      regex:
+                                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                                      error:
+                                                          'Please enter a valid email address',
+                                                      backColor:
+                                                          removeLastCharacter(
+                                                        agentData[imageIndex]
+                                                            .backgroundGradientColors[0],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15.0),
+                                                    child: CustomTextFormField(
+                                                      size: size,
+                                                      nameController:
+                                                          editPassword,
+                                                      name: 'Password',
+                                                      regex:
+                                                          r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$',
+                                                      error:
+                                                          'Please enter a valid Password',
+                                                      backColor:
+                                                          removeLastCharacter(
+                                                        agentData[imageIndex]
+                                                            .backgroundGradientColors[0],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  InkResponse(
+                                                    splashColor: HexColor(
+                                                      removeLastCharacter(
+                                                        agentData[imageIndex]
+                                                            .backgroundGradientColors[0],
+                                                      ),
+                                                    ),
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      width: 150,
+                                                      height: 60,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Colors.black,
+                                                      ),
+                                                      child: const Text(
+                                                        'Done',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 23,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      if (_formKey.currentState!
+                                                          .validate()) {
+                                                        setState(() {
+                                                          print('worked');
+                                                          _writeData();
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: 150,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: HexColor('0f1923'),
+                                      border: Border.all(
+                                        color: HexColor('e9404f'),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        color: HexColor('e9404f'),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             );
                           }
