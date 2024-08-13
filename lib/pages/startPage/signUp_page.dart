@@ -22,12 +22,14 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   int imageIndex = 0;
+  String agentColor = '0f1923';
 
   Future<void> _writeData() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', nameController.text);
     await prefs.setString('email', emailController.text);
     await prefs.setString('password', passwordController.text);
+    await prefs.setString('color', agentColor);
     await prefs.setInt('imageIndex', imageIndex);
   }
 
@@ -69,6 +71,9 @@ class _SignupPageState extends State<SignupPage> {
                         onPageChanged: (value) {
                           setState(() {
                             imageIndex = value;
+                            agentColor = (removeLastCharacter(agentData[value]
+                                    .backgroundGradientColors[0]))
+                                .toString();
                             print(value);
                           });
                         },

@@ -13,313 +13,52 @@ import 'package:valorant_api/pages/bundlesPage/bundles_page.dart';
 import 'package:valorant_api/pages/mapPage/map_page.dart';
 import 'package:valorant_api/pages/weaponPage/weapons_page.dart';
 
-class NewHomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   static String routeName = '/HomePage';
 
-  const NewHomePage({super.key});
+  const HomePage({super.key});
 
   @override
-  State<NewHomePage> createState() => _NewHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _NewHomePageState extends State<NewHomePage> {
+class _HomePageState extends State<HomePage> {
   // local var
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int bottomNavigationBarindex = 1;
   int selecteditem = 0;
   int searchIndex = 0;
   TextEditingController searchString = TextEditingController();
   List<String> filtersName = ['Agents', 'Maps'];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  String agentBackgroundColor = 'e9404f';
+
+  late int imageIndex = 0;
   late String name = '';
   String emailCheck = '';
   String paswordCheck = '';
-  late int imageIndex = 0;
-  String agentBackgroundColor = 'e9404f';
 
   Future<void> _readData() async {
     final prefs = await SharedPreferences.getInstance();
-    name = prefs.getString('username') ?? '';
-    emailCheck = prefs.getString('email') ?? '';
-    paswordCheck = prefs.getString('password') ?? '';
-    imageIndex = prefs.getInt('imageIndex') ?? 0;
+    setState(() {
+      name = prefs.getString('username') ?? '';
+      emailCheck = prefs.getString('email') ?? '';
+      paswordCheck = prefs.getString('password') ?? '';
+      imageIndex = prefs.getInt('imageIndex') ?? 0;
+    });
   }
 
   @override
   void initState() {
-    _readData();
     super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // GET SIZE OF DISPLAY IN USE
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: HexColor('0f1923'),
-      // App bar
-      appBar: AppBar(
-        toolbarHeight: 70,
-        backgroundColor: HexColor('0f1923'),
-        title: const Text(
-          'HomePage',
-          style: TextStyle(
-            fontSize: 60,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      // Drawer
-      drawer: Drawer(
-          backgroundColor: HexColor('e9404f'),
-          key: _scaffoldKey,
-          child: StatefulBuilder(
-            builder: (context, setState) {
-              return Column(
-                children: [
-                  SizedBox(
-                    width: size.width,
-                    height: 400,
-                    child: FutureBuilder(
-                      future: fetchAgents(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          var agentData = snapshot.data!.data;
-                          agentBackgroundColor =
-                              agentData[imageIndex].backgroundGradientColors[0];
-                          return Container(
-                            color: HexColor(
-                                    removeLastCharacter(agentBackgroundColor))
-                                .withOpacity(0.9),
-                            child: Image.network(
-                                agentData[imageIndex].fullPortrait.toString()),
-                          );
-                        }
-                        return const Center(
-                          child:
-                              RiveAnimation.asset('assets/animation/wait.riv'),
-                        );
-                      },
-                    ),
-                  ),
-                  customDetailWidget('name', name, agentBackgroundColor),
-                  customDetailWidget('Email', emailCheck, agentBackgroundColor),
-                  customDetailWidget(
-                      'Password', paswordCheck, agentBackgroundColor),
-                  Text(emailCheck),
-                  Text(paswordCheck),
-                  Text(imageIndex.toString()),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/SpraysPag');
-                      },
-                      child: const Text('Sprays')),
-                ],
-              );
-            },
-          )),
-      // body
-      body: SingleChildScrollView(
-        child: Align(
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
-              Text('width ${size.width.round()} height ${size.height.round()}'),
-              CustomInkResposne(
-                size: size,
-                pagename: const NewAgentPage(),
-                assetDir: 'assets/images/Agents.png',
-                name: 'Agents',
-              ),
-              const SizedBox(height: 30),
-              CustomInkResposne(
-                size: size,
-                pagename: const MapPage(),
-                assetDir: 'assets/images/map.png',
-                name: 'Maps',
-              ),
-              // const SizedBox(height: 30),
-              // CustomInkResposne(
-              //   size: size,
-              //   pagename: const NewAgentPage(),
-              //   assetDir: 'assets/images/fullportrait.png',
-              //   name: 'OldAgents',
-              // ),
-              const SizedBox(height: 30),
-              CustomInkResposne(
-                size: size,
-                pagename: const WeaponsPage(),
-                assetDir: 'assets/images/weapon.png',
-                name: 'Weapons',
-              ),
-              const SizedBox(height: 30),
-
-              CustomInkResposne(
-                size: size,
-                pagename: const BundlesPage(),
-                assetDir: 'assets/images/weapon.png',
-                name: 'Bundles',
-              ),
-              const SizedBox(height: 30),
-            ],
-          ),
-        ),
-      ),
-      // Search Button
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        splashColor: HexColor('e9404f'),
-        shape: const RoundedRectangleBorder(),
-        child: Icon(
-          Icons.search,
-          color: HexColor('e9404f'),
-        ),
-        onPressed: () {
-          setState(
-            () {
-              showModalBottomSheet(
-                showDragHandle: true,
-                backgroundColor: HexColor('0f1923'),
-                shape: const RoundedRectangleBorder(),
-                context: context,
-                builder: (context) {
-                  return StatefulBuilder(
-                    builder: (context, setState) {
-                      return Container(
-                        width: size.width,
-                        height: size.height - 100,
-                        color: HexColor('0f1923'),
-                        child: Column(
-                          children: [
-                            // Filters
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Filters',
-                                    style: TextStyle(
-                                      color: HexColor('ff4655'),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 23,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 60,
-                                    width: 300,
-                                    child: AnimatedGrid(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 1),
-                                      initialItemCount: 2,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index, animation) {
-                                        return InkResponse(
-                                          splashColor: HexColor('0f1923'),
-                                          onTap: () {
-                                            setState(() {
-                                              searchIndex = index;
-                                            });
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: AnimatedContainer(
-                                              duration: const Duration(
-                                                milliseconds: 500,
-                                              ),
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                color: searchIndex == index
-                                                    ? HexColor('e9404f')
-                                                    : HexColor('0f1923'),
-                                                border: Border.all(
-                                                  color: searchIndex == index
-                                                      ? HexColor('0f1923')
-                                                      : HexColor('e9404f'),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                filtersName[index],
-                                                style: TextStyle(
-                                                  color: searchIndex == index
-                                                      ? HexColor('0f1923')
-                                                      : Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Stack(
-                              children: [
-                                Center(
-                                  child: SvgPicture.asset(
-                                      height: 55,
-                                      'assets/images/SearchBox.svg'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 30.0,
-                                    right: 30.0,
-                                  ),
-                                  child: Center(
-                                    child: TextFormField(
-                                      controller: searchString,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          searchString.text = value;
-                                        });
-                                      },
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                      decoration: InputDecoration(
-                                        icon: Icon(
-                                          Icons.search,
-                                          color: Colors.white,
-                                        ),
-                                        border: InputBorder.none,
-                                        hintText: 'Search',
-                                        hintStyle: TextStyle(
-                                          color: HexColor('e9404f'),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            searchIndex == 0
-                                ? searchNewAgents(size)
-                                : searchMaps(size),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          );
-        },
-      ),
-    );
+    _readData();
   }
 
   Padding customDetailWidget(
     String lable,
     String category,
     String agentBackgroundColor,
+    Size size,
   ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -339,19 +78,27 @@ class _NewHomePageState extends State<NewHomePage> {
           Container(
             padding: const EdgeInsets.only(left: 20.0),
             alignment: Alignment.centerLeft,
-            width: 270,
+            width: size.width / 1.7,
             height: 60,
-            decoration: BoxDecoration(color: Colors.black, boxShadow: [
-              BoxShadow(
-                offset: const Offset(10, 10),
-                blurRadius: 10.0,
+            decoration: BoxDecoration(
+              border: Border.all(
                 color: HexColor(removeLastCharacter(agentBackgroundColor)),
               ),
-            ]),
+              color: Colors.black,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(10, 10),
+                  blurRadius: 10.0,
+                  color: HexColor(removeLastCharacter(agentBackgroundColor)),
+                ),
+              ],
+            ),
             child: Text(
-              category,
-              style: const TextStyle(
-                color: Colors.white,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              lable == 'Password' ? '*********' : category,
+              style: TextStyle(
+                color: HexColor('e9404f'),
                 fontSize: 28,
               ),
             ),
@@ -359,6 +106,290 @@ class _NewHomePageState extends State<NewHomePage> {
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // GET SIZE OF DISPLAY IN USE
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: HexColor('0f1923'),
+        drawer: Drawer(
+          backgroundColor: HexColor('0f1923'),
+          child: FutureBuilder(
+            future: fetchAgents(),
+            builder: (context, snapshot) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: FutureBuilder(
+                        future: fetchAgents(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            var agentData = snapshot.data!.data;
+                            agentBackgroundColor = agentData[imageIndex]
+                                .backgroundGradientColors[0];
+                            return Column(
+                              children: [
+                                Container(
+                                  color: HexColor(removeLastCharacter(
+                                          agentBackgroundColor))
+                                      .withOpacity(0.9),
+                                  child: Image.network(
+                                    agentData[imageIndex]
+                                        .fullPortrait
+                                        .toString(),
+                                  ),
+                                ),
+                                customDetailWidget(
+                                    'name', name, agentBackgroundColor, size),
+                                customDetailWidget('Email', emailCheck,
+                                    agentBackgroundColor, size),
+                                customDetailWidget('Password', paswordCheck,
+                                    agentBackgroundColor, size),
+                              ],
+                            );
+                          }
+                          return const Center(
+                            child: RiveAnimation.asset(
+                                'assets/animation/wait.riv'),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        // App bar
+        appBar: AppBar(
+          leading: IconButton(
+            color: HexColor('e9404f'),
+            onPressed: () {
+              if (_scaffoldKey.currentState != null) {
+                _scaffoldKey.currentState!.openDrawer();
+              }
+            },
+            icon: const Icon(
+              Icons.people,
+            ),
+          ),
+          toolbarHeight: 70,
+          backgroundColor: HexColor('0f1923'),
+          title: const Text(
+            'HomePage',
+            style: TextStyle(
+              fontSize: 60,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+        ),
+
+        // body
+        body: SingleChildScrollView(
+          child: Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                const SizedBox(height: 30),
+                Text(
+                    'width ${size.width.round()} height ${size.height.round()}'),
+                CustomInkResposne(
+                  size: size,
+                  pagename: const NewAgentPage(),
+                  assetDir: 'assets/images/Agents.png',
+                  name: 'Agents',
+                ),
+                const SizedBox(height: 30),
+                CustomInkResposne(
+                  size: size,
+                  pagename: const MapPage(),
+                  assetDir: 'assets/images/map.png',
+                  name: 'Maps',
+                ),
+                // const SizedBox(height: 30),
+                // CustomInkResposne(
+                //   size: size,
+                //   pagename: const NewAgentPage(),
+                //   assetDir: 'assets/images/fullportrait.png',
+                //   name: 'OldAgents',
+                // ),
+                const SizedBox(height: 30),
+                CustomInkResposne(
+                  size: size,
+                  pagename: const WeaponsPage(),
+                  assetDir: 'assets/images/weapon.png',
+                  name: 'Weapons',
+                ),
+                const SizedBox(height: 30),
+
+                CustomInkResposne(
+                  size: size,
+                  pagename: const BundlesPage(),
+                  assetDir: 'assets/images/weapon.png',
+                  name: 'Bundles',
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
+          ),
+        ),
+        // Search Button
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          splashColor: HexColor('e9404f'),
+          shape: const RoundedRectangleBorder(),
+          child: Icon(
+            Icons.search,
+            color: HexColor('e9404f'),
+          ),
+          onPressed: () {
+            setState(
+              () {
+                showModalBottomSheet(
+                  showDragHandle: true,
+                  backgroundColor: HexColor('0f1923'),
+                  shape: const RoundedRectangleBorder(),
+                  context: context,
+                  builder: (context) {
+                    return StatefulBuilder(
+                      builder: (context, setState) {
+                        return Container(
+                          width: size.width,
+                          height: size.height - 100,
+                          color: HexColor('0f1923'),
+                          child: Column(
+                            children: [
+                              // Filters
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Filters',
+                                      style: TextStyle(
+                                        color: HexColor('ff4655'),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 23,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 60,
+                                      width: 300,
+                                      child: AnimatedGrid(
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 1),
+                                        initialItemCount: 2,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder:
+                                            (context, index, animation) {
+                                          return InkResponse(
+                                            splashColor: HexColor('0f1923'),
+                                            onTap: () {
+                                              setState(() {
+                                                searchIndex = index;
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(3.0),
+                                              child: AnimatedContainer(
+                                                duration: const Duration(
+                                                  milliseconds: 500,
+                                                ),
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  color: searchIndex == index
+                                                      ? HexColor('e9404f')
+                                                      : HexColor('0f1923'),
+                                                  border: Border.all(
+                                                    color: searchIndex == index
+                                                        ? HexColor('0f1923')
+                                                        : HexColor('e9404f'),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  filtersName[index],
+                                                  style: TextStyle(
+                                                    color: searchIndex == index
+                                                        ? HexColor('0f1923')
+                                                        : Colors.red,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Stack(
+                                children: [
+                                  Center(
+                                    child: SvgPicture.asset(
+                                        height: 55,
+                                        'assets/images/SearchBox.svg'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 30.0,
+                                      right: 30.0,
+                                    ),
+                                    child: Center(
+                                      child: TextFormField(
+                                        controller: searchString,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            searchString.text = value;
+                                          });
+                                        },
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                        decoration: InputDecoration(
+                                          icon: const Icon(
+                                            Icons.search,
+                                            color: Colors.white,
+                                          ),
+                                          border: InputBorder.none,
+                                          hintText: 'Search',
+                                          hintStyle: TextStyle(
+                                            color: HexColor('e9404f'),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              searchIndex == 0
+                                  ? searchNewAgents(size)
+                                  : searchMaps(size),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ));
   }
 
   // Search Method for find and show maps with names
@@ -487,11 +518,11 @@ class _NewHomePageState extends State<NewHomePage> {
       },
     );
   }
+}
 
-  // DELETE 2 CHARACTER FROM LAST STRING
-  String removeLastCharacter(String input) {
-    return input.substring(0, input.length - 2);
-  }
+// DELETE 2 CHARACTER FROM LAST STRING
+String removeLastCharacter(String input) {
+  return input.substring(0, input.length - 2);
 }
 
 // A custom widget from InkResposne get pagename, assets, name,
