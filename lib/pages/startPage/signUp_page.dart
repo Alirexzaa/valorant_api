@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
@@ -22,14 +23,13 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   int imageIndex = 0;
-  String agentColor = '0f1923';
+  String agentColor = 'c7f458';
 
   Future<void> _writeData() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', nameController.text);
     await prefs.setString('email', emailController.text);
     await prefs.setString('password', passwordController.text);
-    await prefs.setString('color', agentColor);
     await prefs.setInt('imageIndex', imageIndex);
   }
 
@@ -43,21 +43,36 @@ class _SignupPageState extends State<SignupPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: HexColor('e9404f'),
+      backgroundColor: HexColor('0f1923'),
+      // AppBar
       appBar: AppBar(
-        backgroundColor: HexColor('e9404f'),
-        title: const Text(
+        backgroundColor: HexColor('0f1923'),
+        title: Text(
           'Sign up',
-          style: TextStyle(fontSize: 32),
+          style: TextStyle(
+            fontSize: 32,
+            color: HexColor('ff4649'),
+          ),
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            color: HexColor('ff4649'),
+            Icons.arrow_back_ios_new,
+          ),
+        ),
       ),
+      // Body
       body: SizedBox(
         width: size.width,
         height: size.height,
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Agent Avatar
               SizedBox(
                 width: size.width,
                 height: 250,
@@ -71,10 +86,9 @@ class _SignupPageState extends State<SignupPage> {
                         onPageChanged: (value) {
                           setState(() {
                             imageIndex = value;
-                            agentColor = (removeLastCharacter(agentData[value]
-                                    .backgroundGradientColors[0]))
-                                .toString();
-                            print(value);
+                            agentColor = (removeLastCharacter(
+                                agentData[value].backgroundGradientColors[0]));
+                            print(agentColor);
                           });
                         },
                         controller: pageController,
@@ -103,28 +117,37 @@ class _SignupPageState extends State<SignupPage> {
                   },
                 ),
               ),
+              const SizedBox(height: 10),
+              // PageIndicator
               Container(
                 alignment: Alignment.center,
                 width: size.width,
                 height: 20,
                 child: SmoothPageIndicator(
+                  onDotClicked: (index) {
+                    setState(() {
+                      pageController.jumpToPage(index);
+                    });
+                  },
                   controller: pageController, // PageController
                   count: 30,
-                  effect: const ScrollingDotsEffect(
+                  effect: ScrollingDotsEffect(
                     maxVisibleDots: 11,
-                    activeDotColor: Colors.black,
+                    activeDotColor: HexColor('ff4655'),
                   ), // your preferred effect
                 ),
               ),
+              const SizedBox(height: 10),
+              // Sign Up Box
               Container(
                 width: size.width - 70,
                 height: 500,
                 decoration: BoxDecoration(
-                  color: HexColor('ff4649'),
-                  boxShadow: const [
+                  color: HexColor('0f1923'),
+                  boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 10),
-                      color: Colors.black,
+                      offset: const Offset(0, 10),
+                      color: HexColor(agentColor),
                       blurRadius: 10,
                     ),
                   ],
@@ -140,126 +163,33 @@ class _SignupPageState extends State<SignupPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Stack(
-                          children: [
-                            SizedBox(
-                              width: size.width,
-                              height: 80,
-                              child: SvgPicture.asset(
-                                  'assets/images/loginbox.svg'),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(8.0),
-                              width: size.width,
-                              height: 110,
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                controller: nameController,
-                                cursorColor: Colors.white,
-                                style: const TextStyle(color: Colors.white),
-                                decoration: const InputDecoration(
-                                  errorStyle: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                  label: Text('name'),
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                  border: InputBorder.none,
-                                  counterStyle: TextStyle(color: Colors.white),
-                                ),
-                                validator: (value) {
-                                  if (nameController.text.length < 2) {
-                                    return 'bigger than 5 characters,please';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
+                        CustomTextFormField(
+                          size: size,
+                          nameController: nameController,
+                          name: 'name',
+                          regex: r'([a-zA-Z0-9_\s]+)',
+                          error: 'please enter a vaild name',
+                          backColor: agentColor,
                         ),
-                        Stack(
-                          children: [
-                            SizedBox(
-                              width: size.width,
-                              height: 80,
-                              child: SvgPicture.asset(
-                                  'assets/images/loginbox.svg'),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(8.0),
-                              width: size.width,
-                              height: 110,
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                controller: emailController,
-                                cursorColor: Colors.white,
-                                style: const TextStyle(color: Colors.white),
-                                decoration: const InputDecoration(
-                                  errorStyle: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                  label: Text('Email'),
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                  border: InputBorder.none,
-                                  counterStyle: TextStyle(color: Colors.white),
-                                ),
-                                validator: (value) {
-                                  if (!RegExp(
-                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                      .hasMatch(value.toString())) {
-                                    return 'Please enter a valid email address';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
+                        CustomTextFormField(
+                          size: size,
+                          nameController: emailController,
+                          name: 'Email',
+                          regex: r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          error: 'Please enter a valid email address',
+                          backColor: agentColor,
                         ),
-                        Stack(
-                          children: [
-                            SizedBox(
-                              width: size.width,
-                              height: 80,
-                              child: SvgPicture.asset(
-                                  'assets/images/loginbox.svg'),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(8.0),
-                              width: size.width,
-                              height: 110,
-                              child: TextFormField(
-                                obscureText: true,
-                                keyboardType: TextInputType.name,
-                                controller: passwordController,
-                                cursorColor: Colors.white,
-                                style: const TextStyle(color: Colors.white),
-                                decoration: const InputDecoration(
-                                  errorStyle: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                  label: Text('Password'),
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                  border: InputBorder.none,
-                                  counterStyle: TextStyle(color: Colors.white),
-                                ),
-                                validator: (value) {
-                                  if (!RegExp(
-                                          r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$')
-                                      .hasMatch(value.toString())) {
-                                    return 'Please enter a valid Password';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
+                        CustomTextFormField(
+                          size: size,
+                          nameController: passwordController,
+                          name: 'Password',
+                          regex:
+                              r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$',
+                          error: 'Please enter a valid Password',
+                          backColor: agentColor,
                         ),
                         InkResponse(
+                          splashColor: HexColor(agentColor),
                           child: Container(
                             alignment: Alignment.center,
                             width: 150,
@@ -292,6 +222,62 @@ class _SignupPageState extends State<SignupPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CustomTextFormField extends StatelessWidget {
+  CustomTextFormField({
+    super.key,
+    required this.size,
+    required this.nameController,
+    required this.name,
+    required this.regex,
+    required this.error,
+    required this.backColor,
+  });
+
+  final Size size;
+  final String name;
+  final String regex;
+  final String error;
+  final TextEditingController nameController;
+  String backColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: HexColor(backColor).withOpacity(0.5),
+        border: Border.all(
+          color: HexColor(backColor),
+        ),
+      ),
+      width: size.width,
+      height: 100,
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        controller: nameController,
+        cursorColor: Colors.white,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          errorStyle: const TextStyle(color: Colors.black, fontSize: 18),
+          label: Text(name),
+          labelStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: 23,
+          ),
+          border: InputBorder.none,
+          counterStyle: const TextStyle(color: Colors.white),
+        ),
+        validator: (value) {
+          if (!RegExp(regex).hasMatch(value.toString())) {
+            return error;
+          }
+          return null;
+        },
       ),
     );
   }
