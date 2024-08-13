@@ -24,6 +24,7 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
     _controller.initialize().then((_) {
       setState(() {});
       _controller.play(); // Start playing the video
+      _controller.setLooping(true);
     });
   }
 
@@ -59,31 +60,32 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
           ),
         ),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        width: size.width,
-        height: 250,
-        child: Stack(
-          children: [
-            Center(
-              child: _controller.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    )
-                  : const CircularProgressIndicator(),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: VideoProgressIndicator(
-                _controller,
-                allowScrubbing: true,
-                padding: const EdgeInsets.all(10),
+      body: Center(
+        child: SizedBox(
+          width: size.width,
+          height: 250,
+          child: Stack(
+            children: [
+              Center(
+                child: _controller.value.isInitialized
+                    ? AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: VideoPlayer(_controller),
+                      )
+                    : const CircularProgressIndicator(),
               ),
-            ),
-          ],
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: VideoProgressIndicator(
+                  _controller,
+                  allowScrubbing: true,
+                  padding: const EdgeInsets.all(10),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

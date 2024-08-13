@@ -4,6 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
+import 'package:valorant_api/pages/skin_video_play.dart';
+import 'package:video_player/video_player.dart';
 
 class WeaponsDetail extends StatefulWidget {
   static String routeName = '/weaponsDetail';
@@ -18,11 +20,16 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
   int currrentIndex = 0;
   int skinIndex = 0;
   final PageController pageController = PageController(initialPage: 0);
-
+  VideoPlayerController? _videoPlayerController;
   TextStyle detailStyle = const TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
   );
+  @override
+  void dispose() {
+    _videoPlayerController!.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,11 +250,34 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                                       border:
                                           Border.all(color: HexColor('ff4655')),
                                     ),
-                                    child: Image.network(
-                                      weaponData[weaponIndex]
-                                          .skins[index]
-                                          .displayIcon
-                                          .toString(),
+                                    child: Stack(
+                                      children: [
+                                        Center(
+                                          child: Image.network(
+                                            weaponData[weaponIndex]
+                                                .skins[index]
+                                                .displayIcon
+                                                .toString(),
+                                          ),
+                                        ),
+                                        weaponData[weaponIndex]
+                                                        .skins[index]
+                                                        .levels[0]
+                                                    ['streamedVideo'] ==
+                                                null
+                                            ? const SizedBox()
+                                            : Positioned(
+                                                bottom: 0,
+                                                right: 0,
+                                                child: skinVideoPlayer(
+                                                  weaponData,
+                                                  weaponIndex,
+                                                  index,
+                                                  context,
+                                                  size,
+                                                ),
+                                              ),
+                                      ],
                                     ),
                                   ),
                                 )
@@ -285,6 +315,77 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
       ),
     );
   }
+
+  IconButton skinVideoPlayer(List<WeaponsData> weaponData, int weaponIndex,
+      int index, BuildContext context, Size size) {
+    return IconButton(
+      onPressed: () async {
+        _videoPlayerController = VideoPlayerController.networkUrl(
+          Uri.parse(
+            weaponData[weaponIndex]
+                .skins[index]
+                .levels[0]['streamedVideo']
+                .toString(),
+          ),
+        );
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return Dialog(
+                  backgroundColor: HexColor('0f1923'),
+                  child: Container(
+                    color: HexColor('0f1923'),
+                    width: size.width,
+                    height: 200,
+                    child: FutureBuilder(
+                      future: _videoPlayerController!.initialize(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return Stack(
+                            children: [
+                              Center(
+                                  child: VideoPlayer(_videoPlayerController!)),
+                              Positioned(
+                                bottom: 5,
+                                left: 0,
+                                right: 0,
+                                child: VideoProgressIndicator(
+                                  _videoPlayerController!,
+                                  allowScrubbing: true,
+                                  padding: const EdgeInsets.all(10),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return const Center(
+                            child: RiveAnimation.asset(
+                                'assets/animation/wait.riv'),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+
+        _videoPlayerController!.initialize();
+        _videoPlayerController!.play();
+        _videoPlayerController!.setLooping(true);
+      },
+      icon: Icon(
+        size: 50,
+        color: HexColor('ff4655'),
+        Icons.play_circle_filled_sharp,
+      ),
+    );
+  }
 }
 
 class DetailRow extends StatelessWidget {
@@ -310,7 +411,7 @@ class DetailRow extends StatelessWidget {
           ),
           Text(
             detail,
-            style: TextStyle(fontSize: 30, color: Colors.white),
+            style: const TextStyle(fontSize: 30, color: Colors.white),
           ),
         ],
       ),
