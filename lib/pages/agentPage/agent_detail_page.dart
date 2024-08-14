@@ -149,7 +149,8 @@ class _DetailState extends State<AgentDetail> {
                                               borderRadius:
                                                   BorderRadius.circular(16.0)),
                                           child: AnimatedPadding(
-                                            duration: Duration(seconds: 1),
+                                            duration:
+                                                const Duration(seconds: 1),
                                             padding: const EdgeInsets.all(3.0),
                                             child: Image.network(
                                               agent[agentIndex]

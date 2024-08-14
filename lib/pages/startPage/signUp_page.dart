@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -8,16 +6,16 @@ import 'package:valorant_api/api/dart_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valorant_api/pages/tools.dart';
 
-class SignupPage extends StatefulWidget {
+class SignUpPage extends StatefulWidget {
   static String routeName = '/SignupPage';
 
-  const SignupPage({super.key});
+  const SignUpPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   PageController pageController = PageController();
   TextEditingController nameController = TextEditingController();
@@ -89,7 +87,7 @@ class _SignupPageState extends State<SignupPage> {
                             imageIndex = value;
                             agentColor = (removeLastCharacter(
                                 agentData[value].backgroundGradientColors[0]));
-                            print(agentColor);
+                            debugPrint(agentColor);
                           });
                         },
                         controller: pageController,

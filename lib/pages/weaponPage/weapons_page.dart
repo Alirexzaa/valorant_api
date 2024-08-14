@@ -107,7 +107,7 @@ class _WeaponsState extends State<WeaponsPage> {
                                             filterName[index],
                                       )
                                       .toList();
-                                  print(fillterWeapons.length);
+                                  debugPrint(fillterWeapons.length.toString());
                                 });
                               },
                               child: Padding(
