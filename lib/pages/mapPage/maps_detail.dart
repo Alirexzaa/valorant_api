@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:rive/rive.dart';
 
 import 'package:valorant_api/api/dart_api.dart';
 
@@ -19,6 +23,7 @@ class _MapsDetailState extends State<MapsDetail> {
     // GET ARGUMENTS FROM LAST PAGE
     final int mapIndex = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
+      backgroundColor: HexColor('0f1923'),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -34,6 +39,15 @@ class _MapsDetailState extends State<MapsDetail> {
                     fit: BoxFit.cover,
                     mapData[mapIndex].splash,
                   ),
+                  SizedBox(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                      ),
+                    ),
+                  ),
                   Positioned(
                     top: 60,
                     right: 20,
@@ -44,6 +58,17 @@ class _MapsDetailState extends State<MapsDetail> {
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 150,
+                    right: 10,
+                    child: Text(
+                      mapData[mapIndex].coordinates.toString(),
+                      style: TextStyle(
+                          color: HexColor('e9404f'),
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Positioned(
@@ -71,32 +96,6 @@ class _MapsDetailState extends State<MapsDetail> {
                             fit: BoxFit.cover,
                             mapData[mapIndex].displayIcon.toString(),
                           ),
-                          Positioned(
-                            // x	4489.032
-                            // y	-3014.0515
-                            top: 44 + 80,
-                            left: 301,
-                            child: Container(
-                              width: 40,
-                              height: 20,
-                              color: Colors.red,
-                              child: Text(
-                                  mapData[mapIndex].callouts![1].regionName),
-                            ),
-                          ),
-                          Positioned(
-                            top: 61 + 100,
-                            left: 66,
-                            child: Container(
-                              // x	6153.585
-                              // y	-6626.2114
-                              width: 40,
-                              height: 20,
-                              color: Colors.blue,
-                              child: Text(
-                                  mapData[mapIndex].callouts![4].regionName),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -105,7 +104,7 @@ class _MapsDetailState extends State<MapsDetail> {
               );
             }
             return const Center(
-              child: CircularProgressIndicator(),
+              child: RiveAnimation.asset('assets/animation/wait.riv'),
             );
           },
         ),

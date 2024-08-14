@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -22,9 +25,9 @@ class _MapPageState extends State<MapPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: HexColor('e9404f'),
+      backgroundColor: HexColor('0f1923'),
       appBar: AppBar(
-        backgroundColor: HexColor('e9404f'),
+        backgroundColor: HexColor('0f1923'),
         actions: const [
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -62,88 +65,86 @@ class _MapPageState extends State<MapPage> {
                   return ListView.builder(
                     itemCount: mapData!.data.length,
                     itemBuilder: (context, index) {
-                      return mapData.data[index].displayName
-                                  .toLowerCase()
-                                  .contains(searchString.text.toLowerCase()) &&
-                              mapData.data[index].displayIcon != null
-                          ? InkResponse(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/MapsDetailPage',
-                                    arguments: index);
-                              },
-                              child: Center(
-                                child: SizedBox(
-                                  width: 400,
-                                  height: 260,
-                                  child: Stack(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: 400,
-                                          height: 260,
-                                          child: SvgPicture.asset(
-                                              'assets/images/mapsBox.svg'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: 10,
-                                        child: Image.network(
-                                          alignment: Alignment.centerLeft,
-                                          width: 400,
-                                          height: 260,
-                                          scale: 3.3,
-                                          filterQuality: FilterQuality.high,
-                                          mapData.data[index].listViewIconTall,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 110,
-                                        top: 50,
-                                        bottom: 50,
-                                        child: Image.network(
-                                          filterQuality: FilterQuality.high,
-                                          mapData.data[index].displayIcon
-                                              .toString(),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 40,
-                                        top: 30,
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              mapData.data[index].displayName,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 23,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                      if (mapData.data[index].displayName
+                              .toLowerCase()
+                              .contains(searchString.text.toLowerCase()) &&
+                          mapData.data[index].displayIcon != null) {
+                        return Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: InkResponse(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/MapsDetailPage',
+                                  arguments: index);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: HexColor('ff4655'),
                                 ),
                               ),
-                            )
-                          : const SizedBox();
+                              width: size.width,
+                              height: 290,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    width: size.width,
+                                    height: 290,
+                                    child: Image.network(
+                                      fit: BoxFit.cover,
+                                      filterQuality: FilterQuality.high,
+                                      mapData.data[index].splash,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 5.0, sigmaY: 5.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.0)),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 30,
+                                    top: 50,
+                                    bottom: 50,
+                                    child: Image.network(
+                                      filterQuality: FilterQuality.high,
+                                      mapData.data[index].displayIcon
+                                          .toString(),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 40,
+                                    top: 30,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          mapData.data[index].displayName,
+                                          style: TextStyle(
+                                            color: HexColor('ff4655'),
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
                     },
                   );
                 }
-                return ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: size.width,
-                        height: 240,
-                        child: SvgPicture.asset('assets/images/mapsBox.svg'),
-                      ),
-                    );
-                  },
+                return const Center(
+                  child: RiveAnimation.asset('assets/animation/wait.riv'),
                 );
               },
             ),

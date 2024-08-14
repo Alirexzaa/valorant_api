@@ -358,7 +358,7 @@ class _HomePageState extends State<HomePage> {
                 CustomInkResposne(
                   size: size,
                   pagename: const NewAgentPage(),
-                  assetDir: 'assets/images/Agents.png',
+                  assetDir: 'assets/images/13.png',
                   name: 'Agents',
                 ),
                 const SizedBox(height: 30),
@@ -695,22 +695,22 @@ class CustomInkResposne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OpenContainer(
-      closedColor: HexColor('0f1923'),
-      // clipBehavior: Clip.none,
-      closedElevation: 0.0,
-      // closedShape:
-      //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      middleColor: HexColor('0f1923'),
-      transitionDuration: const Duration(milliseconds: 350),
-      transitionType: ContainerTransitionType.fadeThrough,
-      closedBuilder: (context, action) {
-        return InkResponse(
-          // onTap: () {
-          //   Navigator.pushNamed(context, pagename);
-          // },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: OpenContainer(
+        closedColor: HexColor('141e29'),
+        // clipBehavior: Clip.none,
+        closedElevation: 0.0,
+        // closedShape:
+        //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        middleColor: HexColor('141e29'),
+        transitionDuration: const Duration(milliseconds: 350),
+        transitionType: ContainerTransitionType.fadeThrough,
+        closedBuilder: (context, action) {
+          return InkResponse(
+            // onTap: () {
+            //   Navigator.pushNamed(context, pagename);
+            // },
             child: Container(
               alignment: Alignment.center,
               width: 500,
@@ -737,10 +737,14 @@ class CustomInkResposne extends StatelessWidget {
                           height: 200,
                           'assets/images/agentBack.svg',
                         ),
-                        Image.asset(
-                          height: 140,
-                          fit: BoxFit.cover,
-                          assetDir,
+                        Positioned(
+                          right: 35,
+                          bottom: 40,
+                          child: Image.asset(
+                            width: 140,
+                            fit: BoxFit.fitWidth,
+                            assetDir,
+                          ),
                         ),
                       ],
                     ),
@@ -748,10 +752,10 @@ class CustomInkResposne extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        );
-      },
-      openBuilder: (context, action) => pagename,
+          );
+        },
+        openBuilder: (context, action) => pagename,
+      ),
     );
   }
 }
