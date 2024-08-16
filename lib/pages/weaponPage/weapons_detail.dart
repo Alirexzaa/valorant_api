@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
