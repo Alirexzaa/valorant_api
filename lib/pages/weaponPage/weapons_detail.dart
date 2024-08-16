@@ -116,94 +116,106 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                     top: 380,
                     left: 0,
                     right: 0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        DetailRow(
-                          detail: weaponData[weaponIndex]
-                              .category
-                              .split('::')[1]
-                              .toLowerCase(),
-                          name: 'Type',
-                        ),
-                        Container(
-                          width: size.width - 50,
-                          height: 1,
-                          color: Colors.white,
-                        ),
-                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
-                            'melee')
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
                           DetailRow(
                             detail: weaponData[weaponIndex]
-                                .shopData!
-                                .cost
-                                .toString(),
-                            name: 'Creds',
+                                .category
+                                .split('::')[1]
+                                .toLowerCase(),
+                            name: 'Type',
                           ),
-                        Container(
-                          width: size.width - 50,
-                          height: 1,
-                          color: Colors.white,
-                        ),
-                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
-                            'melee')
-                          DetailRow(
-                            detail: weaponData[weaponIndex]
-                                .weaponStats!
-                                .magazineSize
-                                .toString(),
-                            name: 'Magazine',
+                          Container(
+                            width: size.width - 50,
+                            height: 1,
+                            color: Colors.white,
                           ),
-                        Container(
-                          width: size.width - 50,
-                          height: 1,
-                          color: Colors.white,
-                        ),
-                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
-                            'melee')
-                          DetailRow(
-                            detail: weaponData[weaponIndex]
-                                .weaponStats!
-                                .fireRate
-                                .toString(),
-                            name: 'FireRate',
+                          if (weaponData[weaponIndex]
+                                  .displayName
+                                  .toLowerCase() !=
+                              'melee')
+                            DetailRow(
+                              detail: weaponData[weaponIndex]
+                                  .shopData!
+                                  .cost
+                                  .toString(),
+                              name: 'Creds',
+                            ),
+                          Container(
+                            width: size.width - 50,
+                            height: 1,
+                            color: Colors.white,
                           ),
-                        Container(
-                          width: size.width - 50,
-                          height: 1,
-                          color: Colors.white,
-                        ),
-                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
-                            'melee')
-                          DetailRow(
-                            detail: weaponData[weaponIndex]
-                                .weaponStats!
-                                .damageRanges[0]
-                                .headDamage
-                                .toString(),
-                            name: 'HeadDamage',
+                          if (weaponData[weaponIndex]
+                                  .displayName
+                                  .toLowerCase() !=
+                              'melee')
+                            DetailRow(
+                              detail: weaponData[weaponIndex]
+                                  .weaponStats!
+                                  .magazineSize
+                                  .toString(),
+                              name: 'Magazine',
+                            ),
+                          Container(
+                            width: size.width - 50,
+                            height: 1,
+                            color: Colors.white,
                           ),
-                        Container(
-                          width: size.width - 50,
-                          height: 1,
-                          color: Colors.white,
-                        ),
-                        if (weaponData[weaponIndex].displayName.toLowerCase() !=
-                            'melee')
-                          DetailRow(
-                            detail: weaponData[weaponIndex]
-                                .weaponStats!
-                                .damageRanges[0]
-                                .bodyDamage
-                                .toString(),
-                            name: 'BodyDamage',
+                          if (weaponData[weaponIndex]
+                                  .displayName
+                                  .toLowerCase() !=
+                              'melee')
+                            DetailRow(
+                              detail: weaponData[weaponIndex]
+                                  .weaponStats!
+                                  .fireRate
+                                  .toString(),
+                              name: 'FireRate',
+                            ),
+                          Container(
+                            width: size.width - 50,
+                            height: 1,
+                            color: Colors.white,
                           ),
-                        Container(
-                          width: size.width - 50,
-                          height: 1,
-                          color: Colors.white,
-                        ),
-                      ],
+                          if (weaponData[weaponIndex]
+                                  .displayName
+                                  .toLowerCase() !=
+                              'melee')
+                            DetailRow(
+                              detail: weaponData[weaponIndex]
+                                  .weaponStats!
+                                  .damageRanges[0]
+                                  .headDamage
+                                  .toString(),
+                              name: 'HeadDamage',
+                            ),
+                          Container(
+                            width: size.width - 50,
+                            height: 1,
+                            color: Colors.white,
+                          ),
+                          if (weaponData[weaponIndex]
+                                  .displayName
+                                  .toLowerCase() !=
+                              'melee')
+                            DetailRow(
+                              detail: weaponData[weaponIndex]
+                                  .weaponStats!
+                                  .damageRanges[0]
+                                  .bodyDamage
+                                  .toString(),
+                              name: 'BodyDamage',
+                            ),
+                          Container(
+                            width: size.width - 50,
+                            height: 1,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   // Skins

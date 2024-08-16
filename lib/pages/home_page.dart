@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   String agentBackgroundColor = 'e9404f';
-
   late int imageIndex = 0;
   late String name = '';
   String emailCheck = '';
@@ -522,7 +521,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               searchIndex == 0
                                   ? searchNewAgents(size)
-                                  : searchMaps(size),
+                                  : searchMaps(size)
                             ],
                           ),
                         );
