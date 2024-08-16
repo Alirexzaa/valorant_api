@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
+import 'package:valorant_api/pages/constants.dart';
 import 'package:valorant_api/pages/skin_video_play.dart';
 
 class BundlesDetailPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
     // Get arg from last page
     Map bundlesData = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
-      backgroundColor: HexColor('e9404f'),
+      backgroundColor: Constants.primaryColor,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -70,7 +70,7 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                 },
                 icon: Icon(
                   Icons.arrow_back_ios_rounded,
-                  color: HexColor('e9404f'),
+                  color: Constants.secondPrimaryColor,
                 ),
               ),
             ),
@@ -118,8 +118,9 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                         },
                       );
                     }
-                    return const Center(
-                      child: RiveAnimation.asset('assets/animation/wait.riv'),
+                    return Center(
+                      child:
+                          RiveAnimation.asset(Constants.loadingRiveAnimation),
                     );
                   },
                 ),
@@ -139,9 +140,9 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
         padding: const EdgeInsets.all(8.0),
         height: 230,
         decoration: BoxDecoration(
-          color: HexColor('0f1923'),
+          color: Constants.primaryColor,
           border: Border.all(
-            color: HexColor('ff4655'),
+            color: Constants.secondPrimaryColor,
           ),
         ),
         child: skin.displayIcon == null
@@ -172,7 +173,7 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                           .split('::')[1]
                           .toUpperCase(),
                       style: TextStyle(
-                        color: HexColor('ff4655'),
+                        color: Constants.secondPrimaryColor,
                         fontSize: 20,
                       ),
                     ),
@@ -195,7 +196,7 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                             },
                             icon: Icon(
                               size: 50,
-                              color: HexColor('ff4655'),
+                              color: Constants.secondPrimaryColor,
                               Icons.play_circle_filled_sharp,
                             ),
                           ),
@@ -207,7 +208,7 @@ class _BundlesDetailPageState extends State<BundlesDetailPage> {
                     child: Text(
                       skin.displayName,
                       style: TextStyle(
-                        color: HexColor('ff4655'),
+                        color: Constants.secondPrimaryColor,
                         fontSize: 18,
                       ),
                     ),

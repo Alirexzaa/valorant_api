@@ -1,11 +1,9 @@
-// import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import 'package:hexcolor/hexcolor.dart';
-
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:rive/rive.dart' as rive;
+import 'package:valorant_api/pages/constants.dart';
+import 'package:valorant_api/pages/tools.dart';
 
 class AgentDetail extends StatefulWidget {
   static String routeName = '/AgentDetail';
@@ -76,20 +74,6 @@ class _DetailState extends State<AgentDetail> {
                                 fit: BoxFit.cover,
                                 alignment: Alignment.center,
                                 agent[agentIndex].background.toString()),
-                            // Positioned(
-                            //   left: 0,
-                            //   top: 0,
-                            //   right: -20,
-                            //   bottom: -20,
-                            //   child: Image.network(
-                            //       color: Colors.grey[900]!.withOpacity(0.5),
-                            //       filterQuality: FilterQuality.high,
-                            //       scale: 2,
-                            //       fit: BoxFit.cover,
-                            //       alignment: Alignment.center,
-                            //       agent.data[agentIndex].fullPortrait
-                            //           .toString()),
-                            // ),
                             Image.network(
                                 height: 650,
                                 filterQuality: FilterQuality.high,
@@ -293,19 +277,13 @@ class _DetailState extends State<AgentDetail> {
               return Container(
                 width: size.width,
                 height: size.height,
-                color: HexColor('e9404f'),
-                child:
-                    const rive.RiveAnimation.asset('assets/animation/wait.riv'),
+                color: Constants.primaryColor,
+                child: rive.RiveAnimation.asset(Constants.loadingRiveAnimation),
               );
             }
           },
         ),
       ),
     );
-  }
-
-  // DELETE 2 CHARACTER FROM LAST STRING
-  String removeLastCharacter(String input) {
-    return input.substring(0, input.length - 2);
   }
 }

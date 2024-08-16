@@ -357,12 +357,14 @@ class CustomInkResposne extends StatelessWidget {
     required this.pagename,
     required this.assetDir,
     required this.name,
+    required this.imageHeight,
   });
 
   final Size size;
   final Widget pagename;
   final String assetDir;
   final String name;
+  final double imageHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -370,18 +372,12 @@ class CustomInkResposne extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: OpenContainer(
         closedColor: HexColor('141e29'),
-        // clipBehavior: Clip.none,
         closedElevation: 0.0,
-        // closedShape:
-        //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         middleColor: HexColor('141e29'),
         transitionDuration: const Duration(milliseconds: 350),
         transitionType: ContainerTransitionType.fadeThrough,
         closedBuilder: (context, action) {
           return InkResponse(
-            // onTap: () {
-            //   Navigator.pushNamed(context, pagename);
-            // },
             child: Container(
               alignment: Alignment.center,
               width: 500,
@@ -394,26 +390,31 @@ class CustomInkResposne extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 45,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor('ff4655'),
+                        ),
                       ),
                     ),
                     Stack(
                       children: [
                         SvgPicture.asset(
-                          height: 200,
+                          width: 170,
+                          height: 170,
                           'assets/images/agentBack.svg',
                         ),
                         Positioned(
-                          right: 35,
-                          bottom: 40,
+                          right: 0,
+                          bottom: 20,
                           child: Image.asset(
-                            width: 140,
-                            fit: BoxFit.fitWidth,
+                            filterQuality: FilterQuality.high,
+                            height: imageHeight,
+                            fit: BoxFit.fitHeight,
                             assetDir,
                           ),
                         ),

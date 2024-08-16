@@ -5,6 +5,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:valorant_api/pages/constants.dart';
+import 'package:valorant_api/pages/tools.dart';
 
 class NewAgentPage extends StatefulWidget {
   static String routeName = '/NewAgentPage';
@@ -34,7 +36,6 @@ class _NewAgentPageState extends State<NewAgentPage> {
         width: size.width,
         height: size.height,
         decoration: BoxDecoration(
-          // color: HexColor('e9404f'),
           gradient: RadialGradient(
             radius: 1.5,
             colors: [
@@ -66,13 +67,13 @@ class _NewAgentPageState extends State<NewAgentPage> {
                       icon: Icon(
                         Icons.arrow_back_ios,
                         size: 50,
-                        color: HexColor('e9404f'),
+                        color: Constants.secondPrimaryColor,
                       ),
                     ),
                     Text(
                       'AGENTS',
                       style: TextStyle(
-                          color: HexColor('e9404f'),
+                          color: Constants.secondPrimaryColor,
                           fontSize: 50,
                           fontWeight: FontWeight.bold),
                     ),
@@ -110,7 +111,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
                                       Center(
                                         child: SvgPicture.asset(
                                           height: 500,
-                                          'assets/images/bigBack.svg',
+                                          Constants.bigBlackPicture,
                                         ),
                                       ),
                                       Center(
@@ -253,14 +254,14 @@ class _NewAgentPageState extends State<NewAgentPage> {
                         Center(
                           child: SvgPicture.asset(
                             height: 500,
-                            'assets/images/bigBack.svg',
+                            Constants.bigBlackPicture,
                           ),
                         ),
-                        const Center(
+                        Center(
                           child: Padding(
                             padding: EdgeInsets.all(40.0),
                             child: rive.RiveAnimation.asset(
-                                'assets/animation/wait.riv'),
+                                Constants.loadingRiveAnimation),
                           ),
                         ),
                       ],
@@ -279,7 +280,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
                       child: SizedBox(
                         width: size.width - 30,
                         height: 55,
-                        child: SvgPicture.asset('assets/images/SearchBox.svg'),
+                        child: SvgPicture.asset(Constants.searchBoxPicture),
                       ),
                     ),
                     Center(
@@ -352,10 +353,10 @@ class _NewAgentPageState extends State<NewAgentPage> {
                                               child: Stack(
                                                 children: [
                                                   selecteditem == index
-                                                      ? SvgPicture.asset(
-                                                          'assets/images/selectedBox.svg')
+                                                      ? SvgPicture.asset(Constants
+                                                          .selectedBoxPicture)
                                                       : SvgPicture.asset(
-                                                          'assets/images/Box.svg'),
+                                                          Constants.boxPicture),
                                                   Positioned(
                                                     right: 10,
                                                     bottom: 25,
@@ -385,7 +386,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
                                           : Stack(
                                               children: [
                                                 SvgPicture.asset(
-                                                    'assets/images/Box.svg'),
+                                                    Constants.boxPicture),
                                                 Positioned(
                                                   right: 10,
                                                   bottom: 25,
@@ -435,7 +436,8 @@ class _NewAgentPageState extends State<NewAgentPage> {
                                                 Center(
                                                   child: SvgPicture.asset(
                                                       height: 220,
-                                                      'assets/images/blackBox.svg'),
+                                                      Constants
+                                                          .blackBoxPicture),
                                                 ),
                                                 Positioned(
                                                   bottom: 30,
@@ -492,88 +494,7 @@ class _NewAgentPageState extends State<NewAgentPage> {
                                         )
                                       : const SizedBox();
                                 },
-                              )
-
-                        //     AnimatedGrid(
-                        //   controller: animatedGridAgent,
-                        //   scrollDirection: Axis.vertical,
-                        //   gridDelegate:
-                        //       const SliverGridDelegateWithMaxCrossAxisExtent(
-                        //           maxCrossAxisExtent: 200),
-                        //   initialItemCount: agentDatas!.data.length,
-                        //   itemBuilder: (BuildContext context, int index,
-                        //       Animation<double> animation) {
-                        //     return agentDatas.data[index].displayName
-                        //                 .toLowerCase()
-                        //                 .contains(
-                        //                     searchBoxString.text.toLowerCase()) &&
-                        //             agentDatas.data[index].isPlayableCharacter
-                        //         ? InkResponse(
-                        //             onTap: () {
-                        //               setState(() {
-                        //                 selecteditem = index;
-                        //                 agentGradientsList = agentDatas
-                        //                     .data[index].backgroundGradientColors;
-                        //                 agentPageView.jumpToPage(index);
-                        //               });
-                        //             },
-                        //             child: Stack(
-                        //               children: [
-                        //                 selecteditem == index
-                        //                     ? SvgPicture.asset(
-                        //                         'assets/images/selectedBox.svg')
-                        //                     : SvgPicture.asset(
-                        //                         'assets/images/Box.svg'),
-                        //                 Positioned(
-                        //                   right: 10,
-                        //                   bottom: 25,
-                        //                   child: Image.network(
-                        //                     height: 120,
-                        //                     agentDatas.data[index].displayIcon,
-                        //                     filterQuality: FilterQuality.high,
-                        //                   ),
-                        //                 ),
-                        //                 Positioned(
-                        //                   right: 57,
-                        //                   bottom: 0,
-                        //                   child: Text(
-                        //                     agentDatas.data[index].displayName,
-                        //                     style: const TextStyle(
-                        //                         color: Colors.white,
-                        //                         fontWeight: FontWeight.bold),
-                        //                   ),
-                        //                 ),
-                        //               ],
-                        //             ),
-                        //           )
-                        //         : Stack(
-                        //             children: [
-                        //               SvgPicture.asset('assets/images/Box.svg'),
-                        //               Positioned(
-                        //                 right: 10,
-                        //                 bottom: 25,
-                        //                 child: Image.network(
-                        //                   color: Colors.amber,
-                        //                   height: 120,
-                        //                   agentDatas.data[index].displayIcon,
-                        //                   filterQuality: FilterQuality.high,
-                        //                 ),
-                        //               ),
-                        //               const Positioned(
-                        //                 right: 30,
-                        //                 bottom: 0,
-                        //                 child: Text(
-                        //                   'NotAvailable',
-                        //                   style: TextStyle(
-                        //                       color: Colors.white,
-                        //                       fontWeight: FontWeight.bold),
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           );
-                        //   },
-                        // ),
-                        );
+                              ));
                   }
                   return SizedBox(
                     width: size.width,
@@ -591,15 +512,15 @@ class _NewAgentPageState extends State<NewAgentPage> {
                             children: [
                               SvgPicture.asset(
                                 height: 170,
-                                'assets/images/Box.svg',
+                                Constants.boxPicture,
                               ),
-                              const Positioned(
+                              Positioned(
                                 top: 40,
                                 bottom: 30,
                                 left: 40,
                                 right: 30,
                                 child: rive.RiveAnimation.asset(
-                                    'assets/animation/wait.riv'),
+                                    Constants.loadingRiveAnimation),
                               ),
                             ],
                           ),
@@ -614,39 +535,5 @@ class _NewAgentPageState extends State<NewAgentPage> {
         ),
       ),
     );
-  }
-
-  // DELETE 2 CHARACTER FROM LAST STRING
-  String removeLastCharacter(String input) {
-    return input.substring(0, input.length - 2);
-  }
-}
-
-class RPSCustomPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Path path_0 = Path();
-    path_0.moveTo(1, 815);
-    path_0.lineTo(1, 14.3928);
-    path_0.lineTo(13.4395, 1);
-    path_0.lineTo(389, 1);
-    path_0.lineTo(389, 815);
-    path_0.lineTo(1, 815);
-    path_0.close();
-
-    Paint paint0Stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.005128205;
-    paint0Stroke.color = const Color(0xff1F2326).withOpacity(1.0);
-    canvas.drawPath(path_0, paint0Stroke);
-
-    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = const Color(0xff000000).withOpacity(1.0);
-    canvas.drawPath(path_0, paint0Fill);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }

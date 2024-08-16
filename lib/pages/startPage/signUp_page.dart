@@ -4,6 +4,7 @@ import 'package:rive/rive.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:valorant_api/pages/constants.dart';
 import 'package:valorant_api/pages/tools.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -42,15 +43,15 @@ class _SignUpPageState extends State<SignUpPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       // AppBar
       appBar: AppBar(
-        backgroundColor: HexColor('0f1923'),
+        backgroundColor: Constants.primaryColor,
         title: Text(
           'Sign up',
           style: TextStyle(
             fontSize: 32,
-            color: HexColor('ff4649'),
+            color: Constants.secondPrimaryColor,
           ),
         ),
         centerTitle: true,
@@ -59,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Navigator.pop(context);
           },
           icon: Icon(
-            color: HexColor('ff4649'),
+            color: Constants.secondPrimaryColor,
             Icons.arrow_back_ios_new,
           ),
         ),
@@ -102,16 +103,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ? Image.network(
                                     height: 150,
                                     agentData[index].displayIcon.toString())
-                                : const SizedBox(
+                                : SizedBox(
                                     child: RiveAnimation.asset(
-                                        'assets/animation/wait.riv'),
+                                        Constants.loadingRiveAnimation),
                                   ),
                           );
                         },
                       );
                     }
-                    return const Center(
-                      child: RiveAnimation.asset('assets/animation/wait.riv'),
+                    return Center(
+                      child:
+                          RiveAnimation.asset(Constants.loadingRiveAnimation),
                     );
                   },
                 ),
@@ -132,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   count: 30,
                   effect: ScrollingDotsEffect(
                     maxVisibleDots: 11,
-                    activeDotColor: HexColor('ff4655'),
+                    activeDotColor: Constants.secondPrimaryColor,
                   ), // your preferred effect
                 ),
               ),
@@ -142,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 width: size.width - 70,
                 height: 500,
                 decoration: BoxDecoration(
-                  color: HexColor('0f1923'),
+                  color: Constants.primaryColor,
                   boxShadow: [
                     BoxShadow(
                       offset: const Offset(0, 10),
@@ -166,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           size: size,
                           nameController: nameController,
                           name: 'name',
-                          regex: r'([a-zA-Z0-9_\s]+)',
+                          regex: Constants.nameReGex,
                           error: 'please enter a vaild name',
                           backColor: agentColor,
                         ),
@@ -174,7 +176,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           size: size,
                           nameController: emailController,
                           name: 'Email',
-                          regex: r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          regex: Constants.emailReGex,
                           error: 'Please enter a valid email address',
                           backColor: agentColor,
                         ),
@@ -182,8 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           size: size,
                           nameController: passwordController,
                           name: 'Password',
-                          regex:
-                              r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$',
+                          regex: Constants.passWordReGex,
                           error: 'Please enter a valid Password',
                           backColor: agentColor,
                         ),

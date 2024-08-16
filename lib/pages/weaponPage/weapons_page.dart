@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
+import 'package:valorant_api/pages/constants.dart';
 
 class WeaponsPage extends StatefulWidget {
   static String routeName = '/WeaponsPage';
@@ -47,7 +47,7 @@ class _WeaponsState extends State<WeaponsPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: HexColor('0f1923'),
+        backgroundColor: Constants.primaryColor,
         title: const Text(
           'Weapons',
           style: TextStyle(fontSize: 30, color: Colors.white),
@@ -58,12 +58,12 @@ class _WeaponsState extends State<WeaponsPage> {
             Navigator.pop(context);
           },
           icon: Icon(
-            color: HexColor('ff4655'),
+            color: Constants.secondPrimaryColor,
             Icons.arrow_back_ios_outlined,
           ),
         ),
       ),
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       body: SizedBox(
         height: size.height,
         width: size.width,
@@ -118,18 +118,18 @@ class _WeaponsState extends State<WeaponsPage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16.0),
                                     color: filterSelectedInedx == index
-                                        ? HexColor('ff4655')
-                                        : HexColor('0f1923'),
+                                        ? Constants.secondPrimaryColor
+                                        : Constants.primaryColor,
                                     border: Border.all(
-                                      color: HexColor('ff4655'),
+                                      color: Constants.secondPrimaryColor,
                                     ),
                                   ),
                                   child: Text(
                                     filterName[index],
                                     style: TextStyle(
                                       color: filterSelectedInedx == index
-                                          ? HexColor('0f1923')
-                                          : HexColor('ff4655'),
+                                          ? Constants.primaryColor
+                                          : Constants.secondPrimaryColor,
                                       fontSize: 20,
                                     ),
                                   ),
@@ -139,8 +139,9 @@ class _WeaponsState extends State<WeaponsPage> {
                           },
                         );
                       }
-                      return const Center(
-                        child: RiveAnimation.asset('assets/animation/wait.riv'),
+                      return Center(
+                        child:
+                            RiveAnimation.asset(Constants.loadingRiveAnimation),
                       );
                     },
                   ),
@@ -179,7 +180,8 @@ class _WeaponsState extends State<WeaponsPage> {
                                 width: 220,
                                 height: 220,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: HexColor('ff4655')),
+                                  border: Border.all(
+                                      color: Constants.secondPrimaryColor),
                                 ),
                                 child: Column(
                                   mainAxisAlignment:
@@ -197,7 +199,7 @@ class _WeaponsState extends State<WeaponsPage> {
                                     Container(
                                       width: size.width,
                                       height: 60,
-                                      color: HexColor('ff4655'),
+                                      color: Constants.secondPrimaryColor,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -210,7 +212,7 @@ class _WeaponsState extends State<WeaponsPage> {
                                                   : fillterWeapons[index]
                                                       .displayName,
                                               style: TextStyle(
-                                                color: HexColor('0f1923'),
+                                                color: Constants.primaryColor,
                                                 fontSize: 28,
                                               ),
                                             ),
@@ -225,7 +227,7 @@ class _WeaponsState extends State<WeaponsPage> {
                                                       .split('::')[1]
                                                       .toUpperCase(),
                                               style: TextStyle(
-                                                color: HexColor('0f1923'),
+                                                color: Constants.primaryColor,
                                                 fontSize: 28,
                                               ),
                                             ),
@@ -241,8 +243,9 @@ class _WeaponsState extends State<WeaponsPage> {
                         },
                       );
                     }
-                    return const Center(
-                      child: RiveAnimation.asset('assets/animation/wait.riv'),
+                    return Center(
+                      child:
+                          RiveAnimation.asset(Constants.loadingRiveAnimation),
                     );
                   },
                 ),

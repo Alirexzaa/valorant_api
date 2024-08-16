@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/pages/agentPage/agent_page.dart';
 import 'package:valorant_api/pages/bundlesPage/bundles_page.dart';
+import 'package:valorant_api/pages/constants.dart';
 import 'package:valorant_api/pages/mapPage/map_page.dart';
 import 'package:valorant_api/pages/tools.dart';
 import 'package:valorant_api/pages/weaponPage/weapons_page.dart';
@@ -74,13 +75,13 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: HexColor('0f1923'),
+        backgroundColor: Constants.primaryColor,
         // Drawer
         drawer: customDrawer(size),
         // App bar
         appBar: AppBar(
           leading: IconButton(
-            color: HexColor('e9404f'),
+            color: Constants.secondPrimaryColor,
             onPressed: () {
               if (_scaffoldKey.currentState != null) {
                 _scaffoldKey.currentState!.openDrawer();
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           toolbarHeight: 70,
-          backgroundColor: HexColor('0f1923'),
+          backgroundColor: Constants.primaryColor,
           title: const Text(
             'HomePage',
             style: TextStyle(
@@ -115,29 +116,33 @@ class _HomePageState extends State<HomePage> {
                 CustomInkResposne(
                   size: size,
                   pagename: const NewAgentPage(),
-                  assetDir: 'assets/images/13.png',
+                  assetDir: Constants.agentPicure,
                   name: 'Agents',
+                  imageHeight: 150,
                 ),
                 const SizedBox(height: 30),
                 CustomInkResposne(
                   size: size,
                   pagename: const WeaponsPage(),
-                  assetDir: 'assets/images/weapon.png',
+                  assetDir: Constants.weaponPicure,
                   name: 'Weapons',
+                  imageHeight: 110,
                 ),
                 const SizedBox(height: 30),
                 CustomInkResposne(
                   size: size,
                   pagename: const BundlesPage(),
-                  assetDir: 'assets/images/b1.png',
+                  assetDir: Constants.bundlesPicure,
                   name: 'Bundles',
+                  imageHeight: 140,
                 ),
                 const SizedBox(height: 30),
                 CustomInkResposne(
                   size: size,
                   pagename: const MapPage(),
-                  assetDir: 'assets/images/map.png',
+                  assetDir: Constants.mapPicure,
                   name: 'Maps',
+                  imageHeight: 150,
                 ),
               ],
             ),
@@ -146,11 +151,11 @@ class _HomePageState extends State<HomePage> {
         // Search Button
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
-          splashColor: HexColor('e9404f'),
+          splashColor: Constants.secondPrimaryColor,
           shape: const RoundedRectangleBorder(),
           child: Icon(
             Icons.search,
-            color: HexColor('e9404f'),
+            color: Constants.secondPrimaryColor,
           ),
           onPressed: () {
             setState(
@@ -165,7 +170,7 @@ class _HomePageState extends State<HomePage> {
   Future<dynamic> customBottonSheet(BuildContext context, Size size) {
     return showModalBottomSheet(
       showDragHandle: true,
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       shape: const RoundedRectangleBorder(),
       context: context,
       builder: (context) {
@@ -174,7 +179,7 @@ class _HomePageState extends State<HomePage> {
             return Container(
               width: size.width,
               height: size.height - 100,
-              color: HexColor('0f1923'),
+              color: Constants.primaryColor,
               child: Column(
                 children: [
                   // Filters
@@ -202,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index, animation) {
                               return InkResponse(
-                                splashColor: HexColor('0f1923'),
+                                splashColor: Constants.primaryColor,
                                 onTap: () {
                                   setState(() {
                                     searchIndex = index;
@@ -217,19 +222,19 @@ class _HomePageState extends State<HomePage> {
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: searchIndex == index
-                                          ? HexColor('e9404f')
-                                          : HexColor('0f1923'),
+                                          ? Constants.secondPrimaryColor
+                                          : Constants.primaryColor,
                                       border: Border.all(
                                         color: searchIndex == index
-                                            ? HexColor('0f1923')
-                                            : HexColor('e9404f'),
+                                            ? Constants.primaryColor
+                                            : Constants.secondPrimaryColor,
                                       ),
                                     ),
                                     child: Text(
                                       filtersName[index],
                                       style: TextStyle(
                                         color: searchIndex == index
-                                            ? HexColor('0f1923')
+                                            ? Constants.primaryColor
                                             : Colors.red,
                                       ),
                                     ),
@@ -272,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                               border: InputBorder.none,
                               hintText: 'Search',
                               hintStyle: TextStyle(
-                                color: HexColor('e9404f'),
+                                color: Constants.secondPrimaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -296,7 +301,7 @@ class _HomePageState extends State<HomePage> {
   // Drawer
   Drawer customDrawer(Size size) {
     return Drawer(
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       child: FutureBuilder(
         future: fetchAgents(),
         builder: (context, snapshot) {
@@ -335,7 +340,7 @@ class _HomePageState extends State<HomePage> {
                                 size: size),
                             CustomInformationBox(
                                 category: paswordCheck,
-                                lable: 'pasword',
+                                lable: 'Password',
                                 agentBackgroundColor: agentBackgroundColor,
                                 size: size),
                             const SizedBox(height: 30),
@@ -345,8 +350,8 @@ class _HomePageState extends State<HomePage> {
                                   context: context,
                                   builder: (context) {
                                     return Dialog(
-                                      backgroundColor:
-                                          HexColor('0f1923').withOpacity(0.9),
+                                      backgroundColor: Constants.primaryColor
+                                          .withOpacity(0.9),
                                       child: SizedBox(
                                         width: size.width,
                                         child: Form(
@@ -360,7 +365,7 @@ class _HomePageState extends State<HomePage> {
                                                   size: size,
                                                   nameController: editName,
                                                   name: 'Name',
-                                                  regex: r'([a-zA-Z0-9_\s]+)',
+                                                  regex: Constants.nameReGex,
                                                   error:
                                                       'please enter a vaild name',
                                                   backColor:
@@ -377,8 +382,7 @@ class _HomePageState extends State<HomePage> {
                                                   size: size,
                                                   nameController: editEmail,
                                                   name: 'Email',
-                                                  regex:
-                                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                                  regex: Constants.emailReGex,
                                                   error:
                                                       'Please enter a valid email address',
                                                   backColor:
@@ -396,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                                                   nameController: editPassword,
                                                   name: 'Password',
                                                   regex:
-                                                      r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$',
+                                                      Constants.passWordReGex,
                                                   error:
                                                       'Please enter a valid Password',
                                                   backColor:
@@ -453,15 +457,15 @@ class _HomePageState extends State<HomePage> {
                                 width: 150,
                                 height: 60,
                                 decoration: BoxDecoration(
-                                  color: HexColor('0f1923'),
+                                  color: Constants.primaryColor,
                                   border: Border.all(
-                                    color: HexColor('e9404f'),
+                                    color: Constants.secondPrimaryColor,
                                   ),
                                 ),
                                 child: Text(
                                   'Edit',
                                   style: TextStyle(
-                                    color: HexColor('e9404f'),
+                                    color: Constants.secondPrimaryColor,
                                     fontSize: 20,
                                   ),
                                 ),
@@ -470,8 +474,9 @@ class _HomePageState extends State<HomePage> {
                           ],
                         );
                       }
-                      return const Center(
-                        child: RiveAnimation.asset('assets/animation/wait.riv'),
+                      return Center(
+                        child:
+                            RiveAnimation.asset(Constants.loadingRiveAnimation),
                       );
                     },
                   ),

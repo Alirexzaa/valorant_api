@@ -4,9 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
 import 'package:valorant_api/model/weapons_model.dart';
+import 'package:valorant_api/pages/constants.dart';
 import 'package:valorant_api/pages/skin_video_play.dart';
-// import 'package:valorant_api/pages/skin_video_play.dart';
-import 'package:video_player/video_player.dart';
 
 class WeaponsDetail extends StatefulWidget {
   static String routeName = '/weaponsDetail';
@@ -39,7 +38,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
     int weaponIndex = pastPage['index'];
     // int weaponIndex = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       body: FutureBuilder(
         future: fetchWeapons(),
         builder: (context, snapshot) {
@@ -62,7 +61,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                           top: -30,
                           child: SvgPicture.asset(
                             height: 500,
-                            'assets/images/red_box.svg',
+                            Constants.redBoxPicture,
                           ),
                         ),
                         Container(
@@ -84,7 +83,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                           left: 30,
                           child: IconButton(
                             iconSize: 30,
-                            color: HexColor('e9404f'),
+                            color: Constants.secondPrimaryColor,
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -109,7 +108,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                   // Details
                   Positioned(
                     bottom: 300,
-                    top: 380,
+                    top: 360,
                     left: 0,
                     right: 0,
                     child: SingleChildScrollView(
@@ -223,7 +222,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28,
-                        color: HexColor('ff4655'),
+                        color: Constants.secondPrimaryColor,
                       ),
                     ),
                   ),
@@ -255,7 +254,8 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                                 width: 220,
                                 height: 60,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: HexColor('ff4655')),
+                                  border: Border.all(
+                                      color: Constants.secondPrimaryColor),
                                 ),
                                 child: Stack(
                                   children: [
@@ -292,7 +292,7 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                                           },
                                           icon: Icon(
                                             size: 50,
-                                            color: HexColor('ff4655'),
+                                            color: Constants.secondPrimaryColor,
                                             Icons.play_circle_filled_sharp,
                                           ),
                                         ),
@@ -309,14 +309,15 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
                                 height: 60,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: HexColor('ff4655')),
+                                  border: Border.all(
+                                      color: Constants.secondPrimaryColor),
                                 ),
                                 child: Text(
                                   'Not Available',
                                   style: TextStyle(
                                       fontSize: 50,
-                                      color:
-                                          HexColor('ff4655').withOpacity(0.5)),
+                                      color: Constants.secondPrimaryColor
+                                          .withOpacity(0.5)),
                                 ),
                               ),
                             );
@@ -329,8 +330,8 @@ class _WeaponsDetailState extends State<WeaponsDetail> {
               ),
             );
           }
-          return const Center(
-            child: RiveAnimation.asset('assets/animation/wait.riv'),
+          return Center(
+            child: RiveAnimation.asset(Constants.loadingRiveAnimation),
           );
         },
       ),
@@ -357,7 +358,7 @@ class DetailRow extends StatelessWidget {
         children: [
           Text(
             name,
-            style: TextStyle(fontSize: 30, color: HexColor('e9404f')),
+            style: TextStyle(fontSize: 30, color: Constants.secondPrimaryColor),
           ),
           Text(
             detail,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:valorant_api/pages/constants.dart';
 import 'package:video_player/video_player.dart';
 
 class SkinVideoPage extends StatefulWidget {
@@ -39,14 +39,14 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
     // Get size of display in use
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       appBar: AppBar(
-        backgroundColor: HexColor('0f1923'),
+        backgroundColor: Constants.primaryColor,
         centerTitle: true,
         title: Text(
           'Skin Videos',
           style: TextStyle(
-            color: HexColor('e9404f'),
+            color: Constants.secondPrimaryColor,
             fontSize: 32,
           ),
         ),
@@ -56,7 +56,7 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
           },
           icon: Icon(
             Icons.arrow_back_ios_rounded,
-            color: HexColor('e9404f'),
+            color: Constants.secondPrimaryColor,
           ),
         ),
       ),
@@ -89,7 +89,7 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: HexColor('e9404f'),
+        backgroundColor: Constants.secondPrimaryColor,
         onPressed: () {
           setState(() {
             _controller.value.isPlaying
@@ -98,7 +98,7 @@ class _SkinVideoPageState extends State<SkinVideoPage> {
           });
         },
         child: Icon(
-          color: HexColor('0f1923'),
+          color: Constants.primaryColor,
           _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
       ),

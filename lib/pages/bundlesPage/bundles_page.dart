@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
 import 'package:valorant_api/api/dart_api.dart';
+import 'package:valorant_api/pages/constants.dart';
 
 class BundlesPage extends StatefulWidget {
   static String routeName = '/BundlesPage';
@@ -19,11 +19,11 @@ class _BundlesPageState extends State<BundlesPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       // App Bar
       appBar: AppBar(
         leading: IconButton(
-          color: HexColor('e9404f'),
+          color: Constants.secondPrimaryColor,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -40,7 +40,7 @@ class _BundlesPageState extends State<BundlesPage> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: HexColor('0f1923'),
+        backgroundColor: Constants.primaryColor,
       ),
       // Body
       body: SizedBox(
@@ -77,7 +77,8 @@ class _BundlesPageState extends State<BundlesPage> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border.all(color: HexColor('ff4655')),
+                          border:
+                              Border.all(color: Constants.secondPrimaryColor),
                         ),
                         child: Stack(
                           children: [
@@ -101,11 +102,11 @@ class _BundlesPageState extends State<BundlesPage> {
                                 alignment: Alignment.center,
                                 width: 212,
                                 height: 30,
-                                color: HexColor('e9404f'),
+                                color: Constants.secondPrimaryColor,
                                 child: Text(
                                   bundlesData[index].displayName,
                                   style: TextStyle(
-                                    color: HexColor('0f1923'),
+                                    color: Constants.primaryColor,
                                     fontSize: 20,
                                   ),
                                 ),
@@ -120,8 +121,8 @@ class _BundlesPageState extends State<BundlesPage> {
               );
             }
             // Loading Animation
-            return const Center(
-              child: RiveAnimation.asset('assets/animation/wait.riv'),
+            return Center(
+              child: RiveAnimation.asset(Constants.loadingRiveAnimation),
             );
           },
         ),

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rive/rive.dart';
+import 'package:valorant_api/pages/constants.dart';
 import 'package:valorant_api/pages/tools.dart';
 
 class LogInPage extends StatefulWidget {
@@ -67,14 +68,14 @@ class _LogInPageState extends State<LogInPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: HexColor('0f1923'),
+        backgroundColor: Constants.primaryColor,
         title: Text(
           'Log in',
-          style: TextStyle(fontSize: 32, color: HexColor('e9404f')),
+          style: TextStyle(fontSize: 32, color: Constants.secondPrimaryColor),
         ),
         centerTitle: true,
       ),
-      backgroundColor: HexColor('0f1923'),
+      backgroundColor: Constants.primaryColor,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -85,7 +86,7 @@ class _LogInPageState extends State<LogInPage> {
                 width: size.width,
                 height: 300,
                 child: RiveAnimation.asset(
-                  'assets/animation/animated_login_character.riv',
+                  Constants.animatedLoginCharacter,
                   stateMachines: const ['Login Machine'],
                   onInit: artboardDef,
                 ),
@@ -95,13 +96,13 @@ class _LogInPageState extends State<LogInPage> {
                 height: 450,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: HexColor('ff4655'),
+                    color: Constants.secondPrimaryColor,
                   ),
-                  color: HexColor('0f1923'),
+                  color: Constants.primaryColor,
                   boxShadow: [
                     BoxShadow(
                       offset: const Offset(0, 10),
-                      color: HexColor('ff4655'),
+                      color: Constants.secondPrimaryColor,
                       blurRadius: 10,
                     ),
                   ],
@@ -123,7 +124,7 @@ class _LogInPageState extends State<LogInPage> {
                           obscure: false,
                           nameController: emailController,
                           name: 'Email',
-                          regex: r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          regex: Constants.emailReGex,
                           error: 'Please enter a valid email address',
                           onChanged: moveEyes,
                           onTap: isCheckField,
@@ -134,8 +135,7 @@ class _LogInPageState extends State<LogInPage> {
                           obscure: true,
                           nameController: passwordController,
                           name: 'Password',
-                          regex:
-                              r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$',
+                          regex: Constants.passWordReGex,
                           error: 'Please enter a valid Password',
                           onChanged: moveEyes,
                           onTap: hidePassword,
@@ -144,8 +144,9 @@ class _LogInPageState extends State<LogInPage> {
                           width: size.width,
                           height: 80,
                           decoration: BoxDecoration(
-                            border: Border.all(color: HexColor('ff4655')),
-                            color: HexColor('0f1923'),
+                            border:
+                                Border.all(color: Constants.secondPrimaryColor),
+                            color: Constants.primaryColor,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -205,7 +206,7 @@ class _LogInPageState extends State<LogInPage> {
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     errorStyle: TextStyle(
-                                        color: HexColor('ff4655'),
+                                        color: Constants.secondPrimaryColor,
                                         fontSize: 18),
                                     label: const Text('Code'),
                                     labelStyle: const TextStyle(
